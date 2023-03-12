@@ -1,0 +1,2 @@
+class Secretarium < ApplicationRecord
+end

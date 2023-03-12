@@ -10,9 +10,66 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_11_232212) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_12_014749) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "alunos", force: :cascade do |t|
+    t.string "matricula"
+    t.string "name"
+    t.bigint "sala_id", null: false
+    t.string "nascimento"
+    t.string "conceitos"
+    t.integer "faltas"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "status"
+    t.index ["sala_id"], name: "index_alunos_on_sala_id"
+  end
+
+  create_table "materia", force: :cascade do |t|
+    t.string "nome"
+    t.bigint "professor_id", null: false
+    t.integer "aulas_dadas"
+    t.integer "aulas_previstas"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["professor_id"], name: "index_materia_on_professor_id"
+  end
+
+  create_table "nota", force: :cascade do |t|
+    t.bigint "materia_id", null: false
+    t.bigint "aluno_id", null: false
+    t.string "conceitos"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["aluno_id"], name: "index_nota_on_aluno_id"
+    t.index ["materia_id"], name: "index_nota_on_materia_id"
+  end
+
+  create_table "professors", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "password"
+    t.string "email"
+    t.string "role"
+  end
+
+  create_table "salas", force: :cascade do |t|
+    t.string "ano"
+    t.string "nome"
+    t.bigint "professor_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["professor_id"], name: "index_salas_on_professor_id"
+  end
+
+  create_table "secretaria", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -22,8 +79,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_11_232212) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "admin", default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "alunos", "salas"
+  add_foreign_key "materia", "professors"
+  add_foreign_key "nota", "alunos"
+  add_foreign_key "nota", "materia", column: "materia_id"
+  add_foreign_key "salas", "professors"
 end
