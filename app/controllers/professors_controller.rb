@@ -1,5 +1,6 @@
 class ProfessorsController < ApplicationController
   def index
+    @professors = policy_scope(Professor)
   end
 
   def show
@@ -9,17 +10,21 @@ class ProfessorsController < ApplicationController
 
   def new
     @professor = Professor.new
+    @sala = Sala.find(params[:sala_id])
     authorize @professor
   end
 
   def create
     @professor = Professor.new(professor_params)
+    @sala = Sala.find(params[:sala_id])
     @professor.role = "Professor"
     authorize @professor
     if @professor.save
-      @prof = User.create(email: @professor.email, password: @professor.password)
+      @join = Join.create(sala: @sala, professor: @professor)
+      authorize @join
+      @prof = User.create(email: @professor.email, password: @professor.password, role: "Professor")
       authorize @prof
-      redirect_to professor_path(@professor)
+      redirect_to sala_professor_path(@sala, @professor)
     else
       render :new, status: :unprocessable_entity
     end

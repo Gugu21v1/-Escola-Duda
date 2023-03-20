@@ -1,0 +1,6 @@
+<%= simple_form_for [@sala, @aluno, @nota] do |f| %>
+  <%= f.error_notification %>
+  <%= f.association :horario, collection: @horarios %>
+  <%= f.input :nota %>
+  <%= f.submit %>
+<% end %>

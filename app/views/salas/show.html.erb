@@ -1,0 +1,48 @@
+<div class="container">
+  <h1 class="text-center"><%= @sala.nome %></h1>
+  <% @alunos.each do |aluno| %>
+    <br>
+    <%= aluno.name %>
+  <% end %>
+  <br>
+  <br>
+  <h2>Professores</h2>
+  <% @sala.professors.each do |professor| %>
+    <br>
+    <%= professor.name %>
+  <% end %>
+  <br>
+  <br>
+  <h2>Funções</h2>
+  <%= link_to "Novo Aluno", new_sala_aluno_path(params[:id]) %>
+  <br>
+  <br>
+  <%= link_to "Novo Professor", new_sala_professor_path(@sala) %>
+</div>
+<div class="container">
+  <table class="responsive-table">
+    <caption>Alunos <%= @sala.nome %></caption>
+    <thead>
+      <tr>
+        <th scope="col">Aluno</th>
+        <th scope="col">Matrícula</th>
+        <th scope="col">Nascimento</th>
+        <th scope="col">Conceitos</th>
+        <th scope="col">Faltas</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @alunos.each do |aluno| %>
+        <tr>
+          <th scope="row"><%= link_to aluno.name, sala_aluno_path(@sala, aluno) %></th>
+          <td data-title="Released"><%= aluno.matricula %></td>
+          <td data-title="Studio"><%= aluno.nascimento %></td>
+          <td data-title="Worldwide Gross" data-type="currency"><%= aluno.conceitos %></td>
+          <td data-title="Domestic Gross" data-type="currency"><%= aluno.faltas %></td>
+          <td data-title="International Gross" data-type="currency" class="text-center"><%= aluno.status %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

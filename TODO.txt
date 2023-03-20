@@ -1,0 +1,15 @@
+Formulario Criar Novo Aluno // Feito
+Formulario Criar Nova Sala // Feito
+Formulario Criar Notas // Feito
+Formulario Criar Nova Secretaria
+
+Mostrar todos os alunos // Feito
+Mostrar todas as salas // Feito
+
+Editar Nota
+Editar Professor
+Editar Aluno
+
+Excluir Professor
+Excluir Aluno
+Editar Secretaria

@@ -1,2 +1,7 @@
-<h1>Professsors#show</h1>
-<p>Find me in app/views/professsors/show.html.erb</p>
+<h1>Professor <%= @professor.name %></h1>
+<br>
+<br>
+<br>
+<% @professor.horarios.each do |horario| %>
+  <%= horario.nome %>
+<% end %>

@@ -1,2 +1,14 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<div class="container">
+  <h1>Salas</h1>
+  <% @salas.each do |sala| %>
+    <h3><%= link_to sala.nome, sala_path(sala) %></h3>
+    <br>
+  <% end %>
+  <br>
+  <h2>Funções</h2>
+  <br>
+  <%= link_to "Nova Sala", new_sala_path %>
+  <br>
+  <br>
+  <%= link_to "Atribuir Professores", new_join_path %>
+</div>

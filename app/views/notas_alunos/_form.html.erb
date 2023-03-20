@@ -1,0 +1,15 @@
+<% horarios = [] %>
+<%= simple_form_for [sala, aluno, notas_aluno] do |f| %>
+  <%= f.error_notification %>
+  <% if current_user.role == "Admin" %>
+    <% Horario.all.each do |horario| %>
+      <% horarios << horario.nome %>
+    <% end %>
+  <% else %>
+    <%= f.association :horario, collection: horarios %>
+    <% horarios << JoinMateriasProf.find_by(professor: Professor.find_by(email: current_user.email)).horario.nome %>
+    <%= f.association :horario, collection: horarios %>
+  <% end %>
+  <%= f.input :nota %>
+  <%= f.submit %>
+<% end %>

@@ -1,0 +1,10 @@
+<%= simple_form_for [sala, aluno] do |f| %>
+  <%= f.error_notification %>
+  <%= f.input :matricula %>
+  <%= f.input :name %>
+  <%= f.input :email %>
+  <%= f.input :nascimento %>
+  <%= f.input :status %>
+  <%= f.input :password %>
+  <%= f.submit %>
+<% end %>

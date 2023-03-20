@@ -1,0 +1,11 @@
+<h1>Join#new</h1>
+<p>Find me in app/views/join/new.html.erb</p>
+<% nome = [] %>
+<%= simple_form_for(@join) do |f| %>
+  <% Sala.all.each do |sala| %>
+    <% nome << sala.nome %>
+  <% end %>
+  <%= f.association :sala, collection: nome, include_blank: false %>
+  <%= f.association :professor, collection: Professor.order(:name), include_blank: false %>
+  <div class="button-create-list"><%= f.submit %></div>
+<% end %>

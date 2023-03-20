@@ -1,0 +1,9 @@
+<% nome = [] %>
+<%= simple_form_for(join) do |f| %>
+  <% Sala.all.each do |sala| %>
+    <% nome << sala.nome %>
+  <% end %>
+  <%= f.association :sala, collection: nome %>
+  <%= f.association :professor, collection: Professor.order(:name) %>
+  <div class="button-create-list"><%= f.submit %></div>
+<% end %>

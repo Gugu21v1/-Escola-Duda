@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_12_014749) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_20_155728) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,27 +24,46 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_12_014749) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status"
+    t.string "email"
+    t.string "password"
+    t.string "role"
     t.index ["sala_id"], name: "index_alunos_on_sala_id"
   end
 
-  create_table "materia", force: :cascade do |t|
+  create_table "horarios", force: :cascade do |t|
     t.string "nome"
-    t.bigint "professor_id", null: false
     t.integer "aulas_dadas"
     t.integer "aulas_previstas"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["professor_id"], name: "index_materia_on_professor_id"
   end
 
-  create_table "nota", force: :cascade do |t|
-    t.bigint "materia_id", null: false
-    t.bigint "aluno_id", null: false
-    t.string "conceitos"
+  create_table "join_materias_profs", force: :cascade do |t|
+    t.bigint "professor_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["aluno_id"], name: "index_nota_on_aluno_id"
-    t.index ["materia_id"], name: "index_nota_on_materia_id"
+    t.bigint "horario_id", null: false
+    t.index ["horario_id"], name: "index_join_materias_profs_on_horario_id"
+    t.index ["professor_id"], name: "index_join_materias_profs_on_professor_id"
+  end
+
+  create_table "joins", force: :cascade do |t|
+    t.bigint "professor_id", null: false
+    t.bigint "sala_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["professor_id"], name: "index_joins_on_professor_id"
+    t.index ["sala_id"], name: "index_joins_on_sala_id"
+  end
+
+  create_table "notas_alunos", force: :cascade do |t|
+    t.bigint "aluno_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "horario_id", null: false
+    t.string "nota"
+    t.index ["aluno_id"], name: "index_notas_alunos_on_aluno_id"
+    t.index ["horario_id"], name: "index_notas_alunos_on_horario_id"
   end
 
   create_table "professors", force: :cascade do |t|
@@ -59,10 +78,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_12_014749) do
   create_table "salas", force: :cascade do |t|
     t.string "ano"
     t.string "nome"
-    t.bigint "professor_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["professor_id"], name: "index_salas_on_professor_id"
   end
 
   create_table "secretaria", force: :cascade do |t|
@@ -80,13 +97,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_12_014749) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin", default: false
+    t.string "role"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "alunos", "salas"
-  add_foreign_key "materia", "professors"
-  add_foreign_key "nota", "alunos"
-  add_foreign_key "nota", "materia", column: "materia_id"
-  add_foreign_key "salas", "professors"
+  add_foreign_key "join_materias_profs", "horarios"
+  add_foreign_key "join_materias_profs", "professors"
+  add_foreign_key "joins", "professors"
+  add_foreign_key "joins", "salas"
+  add_foreign_key "notas_alunos", "alunos"
+  add_foreign_key "notas_alunos", "horarios"
 end

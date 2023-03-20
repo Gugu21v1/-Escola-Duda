@@ -1,2 +1,28 @@
-<h1>Alunos#show</h1>
-<p>Find me in app/views/alunos/show.html.erb</p>
+<h1>Aluno <%= @aluno.name %> </h1>
+<br>
+<br>
+<div class="container">
+  <table class="responsive-table">
+    <caption>Aluno <%= @aluno.name %></caption>
+    <thead>
+      <tr>
+        <th scope="col">Horário</th>
+        <th scope="col">Nota</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% Horario.all.each do |horario| %>
+        <tr>
+          <th scope="row"><%= horario.nome %></th>
+          <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
+            <td data-title="Released">Sem Nota</td>
+          <% else %>
+            <td data-title="Released"><%= @aluno.notas_alunos.find_by(horario_id: horario.id).nota %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<br>
+<%= link_to "Nova nota", new_sala_aluno_notas_aluno_path(@aluno.sala, @aluno) %>
