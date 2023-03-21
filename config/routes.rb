@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  get 'join_materias_profs/new'
-  get 'join_materias_profs/create'
   devise_for :users
   root to: "pages#home"
 
@@ -10,7 +8,10 @@ Rails.application.routes.draw do
       resources :notas_alunos, only: %i[new create]
     end
   end
+  resources :alunos, only: %i[index]
   resources :joins, only: %i[new create]
+  resources :join_materias_profs, only: %i[new create]
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

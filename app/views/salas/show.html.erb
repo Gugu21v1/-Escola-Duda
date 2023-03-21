@@ -1,15 +1,10 @@
 <div class="container">
-  <h1 class="text-center"><%= @sala.nome %></h1>
-  <% @alunos.each do |aluno| %>
-    <br>
-    <%= aluno.name %>
-  <% end %>
-  <br>
+  <h1 class="text-center"><%= @sala.nome %> | <%= @sala.ano %></h1>
   <br>
   <h2>Professores</h2>
   <% @sala.professors.each do |professor| %>
     <br>
-    <%= professor.name %>
+    <%= link_to professor.name, sala_professor_path(@sala, professor) %>
   <% end %>
   <br>
   <br>

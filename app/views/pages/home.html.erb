@@ -1,4 +1,8 @@
 <div class="container">
+  <%= form_with url: alunos_path, method: :get, class: "d-flex mb-3" do %>
+    <%= text_field_tag :query, params[:query], class: "form-control", placeholder: "Find a product" %>
+    <%= submit_tag "Search", class: "btn btn-primary me-1 button-submit" %>
+  <% end %>
   <h1>Salas</h1>
   <% @salas.each do |sala| %>
     <h3><%= link_to sala.nome, sala_path(sala) %></h3>

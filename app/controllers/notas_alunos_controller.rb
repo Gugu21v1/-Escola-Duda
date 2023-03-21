@@ -16,23 +16,34 @@ class NotasAlunosController < ApplicationController
   end
 
   def create
+    @horarios = []
+    if current_user.admin == true
+      Horario.all.each do |horario|
+        @horarios << horario.nome
+      end
+    else
+      prof = Professor.find_by(email: current_user.email)
+      @horarios << JoinMateriasProf.find_by(professor: prof).horario.nome
+    end
     @sala = Sala.find(params[:sala_id])
     @aluno = Aluno.find(params[:aluno_id])
-    @horario = JoinMateriasProf.find_by(professor: Professor.find_by(email: current_user.email))
+    @horario = Horario.find_by(nome: params[:notas_aluno][:horario_id])
+    @trimestre = params[:notas_aluno][:trimestre]
     @nota = NotasAluno.new(nota_params)
     @nota.aluno = @aluno
     @nota.horario = @horario
+    @nota.trimestre = @trimestre
     authorize @nota
     if @nota.save
       redirect_to sala_aluno_path(@sala, @aluno)
     else
-      render :new, status: :unprocessable_entity
+      render 'alunos/show', status: :unprocessable_entity
     end
   end
 
   private
 
   def nota_params
-    params.require(:notas_aluno).permit(:nota, :aluno_id, :horario_id)
+    params.require(:notas_aluno).permit(:nota, :aluno_id, :horario_id, :trimestre)
   end
 end

@@ -6,8 +6,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-Sala.destroy_all
-Horario.destroy_all
+
 
 turma = Sala.create(ano: "6° Ano", nome: "GR6A")
 turma = Sala.create(ano: "6° Ano", nome: "GR6B")
@@ -63,5 +62,6 @@ horario = Horario.create(nome: "Inglês")
 
 horario = Horario.create(nome: "Tecnologia e Inovação")
 horario = Horario.create(nome: "Culturas e Trajetórias")
+horario = Horario.create(nome: "Oficina de Texto")
 
 # ------------------------------------------------------

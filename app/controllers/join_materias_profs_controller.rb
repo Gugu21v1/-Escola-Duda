@@ -5,14 +5,14 @@ class JoinMateriasProfsController < ApplicationController
   end
 
   def create
-    @materia = Horario.find_by(nome: params[:join_materias_prof][:sala_id])
-    @prof = Professor.find(params[:join_materias_prof][:materia_id])
-    @join = Join.new(join_params)
+    @materia = Horario.find_by(nome: params[:join_materias_prof][:horario_id])
+    @prof = Professor.find(params[:join_materias_prof][:professor_id])
+    @join = JoinMateriasProf.new(join_params)
     authorize @join
     @join.horario_id = @materia.id
     @join.professor = @prof
     if @join.save
-      redirect_to sala_path(@sala)
+      redirect_to sala_professor_path(@prof.salas.first, @prof)
     else
       render :new, status: :unprocessable_entity
     end

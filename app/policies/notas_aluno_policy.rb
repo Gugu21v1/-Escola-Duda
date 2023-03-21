@@ -11,6 +11,10 @@ class NotasAlunoPolicy < ApplicationPolicy
   end
 
   def create?
-    user.role = "Professor" || user.role = "Admin"
+    if user.role == "Professor" || user.admin == true
+      true
+    else
+      false
+    end
   end
 end

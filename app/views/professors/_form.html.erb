@@ -2,5 +2,7 @@
   <%= f.input :email %>
   <%= f.input :name %>
   <%= f.input :password %>
+  <%= f.input :password_confirmation,
+                input_html: { autocomplete: "new-password" } %>
   <%= f.submit %>
 <% end %>

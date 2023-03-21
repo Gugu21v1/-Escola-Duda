@@ -1,15 +1,7 @@
-<% horarios = [] %>
-<%= simple_form_for [sala, aluno, notas_aluno] do |f| %>
+<%= simple_form_for [sala, aluno, nota] do |f| %>
   <%= f.error_notification %>
-  <% if current_user.role == "Admin" %>
-    <% Horario.all.each do |horario| %>
-      <% horarios << horario.nome %>
-    <% end %>
-  <% else %>
-    <%= f.association :horario, collection: horarios %>
-    <% horarios << JoinMateriasProf.find_by(professor: Professor.find_by(email: current_user.email)).horario.nome %>
-    <%= f.association :horario, collection: horarios %>
-  <% end %>
+  <%= f.input :trimestre, :collection => { '1° Trimestre' => '1° Trimestre', '2° Trimestre' => '2° Trimestre', '3° Trimestre' => '3° Trimestre', '4° Trimestre' => '4° Trimestre'} %>
+  <%= f.association :horario, collection: @nomes %>
   <%= f.input :nota %>
   <%= f.submit %>
 <% end %>
