@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_20_155728) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_22_175937) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,8 +32,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_20_155728) do
 
   create_table "horarios", force: :cascade do |t|
     t.string "nome"
-    t.integer "aulas_dadas"
-    t.integer "aulas_previstas"
+    t.string "aulas_dadas"
+    t.string "aulas_previstas"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -57,11 +57,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_20_155728) do
   end
 
   create_table "notas_alunos", force: :cascade do |t|
+    t.string "nota"
+    t.string "trimestre"
     t.bigint "aluno_id", null: false
+    t.bigint "horario_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "horario_id", null: false
-    t.string "nota"
     t.index ["aluno_id"], name: "index_notas_alunos_on_aluno_id"
     t.index ["horario_id"], name: "index_notas_alunos_on_horario_id"
   end
