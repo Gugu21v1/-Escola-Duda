@@ -1,0 +1,10 @@
+<% horarios = [] %>
+<%= simple_form_for(join_materias_prof) do |f| %>
+  <%= f.error_notification %>
+  <% Horario.all.each do |horario| %>
+    <% horarios << horario.nome %>
+  <% end %>
+  <%= f.association :horario, collection: horarios %>
+  <%= f.association :professor, collection: Professor.order(:name) %>
+  <%= f.submit %>
+<% end %>

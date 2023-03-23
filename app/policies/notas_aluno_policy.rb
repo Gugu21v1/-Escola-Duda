@@ -13,4 +13,8 @@ class NotasAlunoPolicy < ApplicationPolicy
   def create?
     user.role = "Professor" || user.role = "Admin"
   end
+
+  def update?
+    user.role = "Professor" || user.role = "Admin"
+  end
 end

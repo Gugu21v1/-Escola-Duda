@@ -15,7 +15,7 @@
         <tr>
           <th scope="row"><%= horario.nome %></th>
           <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
-            <td data-title="Released">Sem Nota</td>
+            <td data-title="Released">Aguardando Lançamento</td>
           <% else %>
             <td data-title="Released"><%= @aluno.notas_alunos.find_by(horario_id: horario.id).nota %></td>
           <% end %>
@@ -26,3 +26,4 @@
 </div>
 <br>
 <%= link_to "Nova nota", new_sala_aluno_notas_aluno_path(@aluno.sala, @aluno) %>
+<%= render 'notas_alunos/form', sala: @sala, aluno: @aluno, nota: @nota%>

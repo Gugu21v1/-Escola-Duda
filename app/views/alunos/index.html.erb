@@ -1,7 +1,14 @@
 <div class="container text-center mt-4">
   <h1>Alunos</h1>
-  <% @alunos.each do |aluno| %>
-    <%= aluno.name %>
-    <br>
+  <% if params[:query] != nil %>
+    <% @alunos = @lista %>
+    <% if @alunos %>
+      <% @alunos.each do |aluno| %>
+        <% if aluno.name.upcase.include?(params[:query].upcase) %>
+          <%= aluno.name %>
+        <% end %>
+        <br>
+      <% end %>
+    <% end %>
   <% end %>
 </div>

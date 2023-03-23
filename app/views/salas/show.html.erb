@@ -9,7 +9,7 @@
   <h2>Professores</h2>
   <% @sala.professors.each do |professor| %>
     <br>
-    <%= professor.name %>
+    <%= link_to professor.name, sala_professor_path(@sala, professor) %>
   <% end %>
   <br>
   <br>
