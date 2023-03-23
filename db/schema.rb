@@ -42,8 +42,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_22_175937) do
     t.bigint "professor_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "horario_id", null: false
-    t.index ["horario_id"], name: "index_join_materias_profs_on_horario_id"
     t.index ["professor_id"], name: "index_join_materias_profs_on_professor_id"
   end
 
@@ -104,10 +102,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_22_175937) do
   end
 
   add_foreign_key "alunos", "salas"
-  add_foreign_key "join_materias_profs", "horarios"
   add_foreign_key "join_materias_profs", "professors"
   add_foreign_key "joins", "professors"
   add_foreign_key "joins", "salas"
-  add_foreign_key "notas_alunos", "alunos"
-  add_foreign_key "notas_alunos", "horarios"
 end

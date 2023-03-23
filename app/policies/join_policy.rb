@@ -11,6 +11,6 @@ class JoinPolicy < ApplicationPolicy
   end
 
   def create?
-    true
+    user.admin?
   end
 end

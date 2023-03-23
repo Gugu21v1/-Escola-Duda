@@ -56,6 +56,6 @@ class NotasAlunosController < ApplicationController
   private
 
   def nota_params
-    params.require(:notas_aluno).permit(:nota, :aluno_id, :horario_id)
+    params.require(:notas_aluno).permit(:nota, :aluno_id, :horario_id, :trimestre)
   end
 end

@@ -82,7 +82,7 @@ a {
       color: white;
 
       &:first-of-type {
-        text-align: left;
+        text-align: center;
       }
     }
   }
@@ -94,7 +94,7 @@ a {
   td {
     display: block;
     padding: 0;
-    text-align: left;
+    text-align: center;
     white-space: normal;
   }
 
@@ -187,7 +187,7 @@ a {
       @media (min-width: $bp-bart) {
         background-color: transparent;
         color: rgba(0,0,0,0.87);
-        text-align: left;
+        text-align: center;
       }
     }
 

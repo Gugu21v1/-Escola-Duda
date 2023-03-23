@@ -13,3 +13,9 @@ Editar Aluno
 Excluir Professor
 Excluir Aluno
 Editar Secretaria
+
+Separar Trimestres
+
+Search Bar Para Aluno // Feito
+
+Aluno fazer login com matricula
