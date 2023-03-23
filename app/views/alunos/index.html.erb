@@ -4,8 +4,8 @@
     <% @alunos = @lista %>
     <% if @alunos %>
       <% @alunos.each do |aluno| %>
-        <% if aluno.name.upcase.include?(params[:query].upcase) %>
-          <%= aluno.name %>
+        <% if I18n.transliterate(aluno).upcase.include?(params[:query].upcase) %>
+          <%= aluno %>
         <% end %>
         <br>
       <% end %>

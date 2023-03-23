@@ -3,14 +3,14 @@ class AlunosController < ApplicationController
     @alunos = policy_scope(Aluno)
     @lista = []
     if params[:query]
-      pesquisa_separada = params[:query].upcase.split
+      pesquisa_separada = I18n.transliterate(params[:query]).split
       pesquisa_separada.each do |palavra|
-        p palavra
         Aluno.all.each do |aluno|
-          if aluno.name.upcase.include?(palavra) ||
+          if I18n.transliterate(aluno.name).upcase.include?(palavra.upcase) ||
             aluno.matricula.include?(palavra)
-            if @lista.include?(aluno) == false
-              @lista << aluno
+            if @lista.include?(I18n.transliterate(aluno.name)) == false
+              p aluno.name
+              @lista << aluno.name
             end
           end
         end
