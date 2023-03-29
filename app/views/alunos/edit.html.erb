@@ -1,2 +1,9 @@
 <h1>Alunos#edit</h1>
 <p>Find me in app/views/alunos/edit.html.erb</p>
+<%= form_with model: [@sala, @aluno] do |f| %>
+  <%= f.label :conceitos %>
+  <%= f.text_field :conceitos %>
+  <%= f.label :faltas %>
+  <%= f.text_field :faltas %>
+  <%= f.submit %>
+<% end %>

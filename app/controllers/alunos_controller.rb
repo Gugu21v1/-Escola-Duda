@@ -20,22 +20,20 @@ class AlunosController < ApplicationController
 
   def show
     @horarios = []
-    @nomes = []
     if current_user.admin == true
       Horario.all.each do |horario|
-        @nomes << horario.nome
+        @horarios << horario.nome
       end
-    else
+    elsif current_user.role == "Professor"
       prof = Professor.find_by(email: current_user.email)
-      horarios = JoinMateriasProf.where(professor: prof)
-      horarios.each do |horario|
-        @nomes << Horario.find_by(id: horario.horario_id).nome
+      JoinMateriasProf.where(professor: prof).each do |horario|
+        @horarios << horario.horario.nome
       end
     end
     @sala = Sala.find(params[:sala_id])
     @aluno = Aluno.find(params[:id])
-    @nota = NotasAluno.new
     authorize @aluno
+    @nota = NotasAluno.new
   end
 
   def new
@@ -59,18 +57,24 @@ class AlunosController < ApplicationController
     end
   end
 
-  def destroy
-  end
-
   def edit
+    @sala = Sala.find(params[:sala_id])
+    @aluno = Aluno.find(params[:id])
+    authorize @aluno
   end
 
   def update
+    @sala = Sala.find(params[:sala_id])
+    @aluno = Aluno.find(params[:id])
+    authorize @aluno
+    @aluno.update(aluno_params)
+
+    redirect_to sala_path(@sala)
   end
 
   private
 
   def aluno_params
-    params.require(:aluno).permit(:matricula, :name, :nascimento, :status, :email, :password)
+    params.require(:aluno).permit(:matricula, :name, :nascimento, :status, :email, :password, :conceitos, :faltas)
   end
 end

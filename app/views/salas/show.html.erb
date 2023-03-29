@@ -33,8 +33,8 @@
           <th scope="row"><%= link_to aluno.name, sala_aluno_path(@sala, aluno) %></th>
           <td data-title="Released"><%= aluno.matricula %></td>
           <td data-title="Studio"><%= aluno.nascimento %></td>
-          <td data-title="Worldwide Gross" data-type="currency"><%= aluno.conceitos %></td>
-          <td data-title="Domestic Gross" data-type="currency"><%= aluno.faltas %></td>
+          <td data-title="Worldwide Gross" class="text-center" data-type="currency"><%= aluno.conceitos %></td>
+          <td data-title="Domestic Gross" class="text-center" data-type="currency"><%= aluno.faltas %></td>
           <td data-title="International Gross" data-type="currency" class="text-center"><%= aluno.status %></td>
         </tr>
       <% end %>

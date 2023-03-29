@@ -13,4 +13,12 @@ class AlunoPolicy < ApplicationPolicy
   def create?
     user.admin?
   end
+
+  def update?
+    if user.role == "Professor" || user.admin == true
+      true
+    else
+      false
+    end
+  end
 end

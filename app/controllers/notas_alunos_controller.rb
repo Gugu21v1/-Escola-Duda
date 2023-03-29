@@ -9,9 +9,11 @@ class NotasAlunosController < ApplicationController
       Horario.all.each do |horario|
         @horarios << horario.nome
       end
-    else
+    elsif current_user.role == "Professor"
       prof = Professor.find_by(email: current_user.email)
-      @horarios << JoinMateriasProf.find_by(professor: prof).horario.nome
+      JoinMateriasProf.where(professor: prof).each do |horario|
+        @horarios << horario.horario.nome
+      end
     end
   end
 
@@ -21,9 +23,11 @@ class NotasAlunosController < ApplicationController
       Horario.all.each do |horario|
         @horarios << horario.nome
       end
-    else
+    elsif current_user.role == "Professor"
       prof = Professor.find_by(email: current_user.email)
-      @horarios << JoinMateriasProf.find_by(professor: prof).horario.nome
+      JoinMateriasProf.where(professor: prof).each do |horario|
+        @horarios << horario.horario.nome
+      end
     end
     @sala = Sala.find(params[:sala_id])
     @aluno = Aluno.find(params[:aluno_id])
@@ -51,6 +55,15 @@ class NotasAlunosController < ApplicationController
     @nota.update(nota_params)
     # No need for app/views/restaurants/update.html.erb
     redirect_to sala_aluno_path(@sala, @aluno)
+  end
+
+  def destroy
+    @sala = Sala.find(params[:sala_id])
+    @aluno = Aluno.find(params[:aluno_id])
+    @nota = NotasAluno.find(params[:id])
+    authorize @nota
+    @nota.destroy
+    redirect_to sala_aluno_path(@sala, @aluno), status: :see_other
   end
 
   private

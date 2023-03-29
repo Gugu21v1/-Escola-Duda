@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :salas do
     resources :professors
     resources :alunos do
-      resources :notas_alunos, only: %i[new create edit create]
+      resources :notas_alunos, only: %i[new create edit update destroy]
     end
   end
   resources :alunos, only: %i[index]

@@ -1,7 +1,7 @@
 class Aluno < ApplicationRecord
   validates :email, presence: true, format: { with: /\S+@\S{1,9}\.[a-z]{2,3}/i }, uniqueness: true
 
-  before_validation do
+  before_validation on: :create do
     User.all.each do |user|
       if user.email == email
         errors.add(:email, "já cadastrado")

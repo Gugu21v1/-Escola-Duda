@@ -7,10 +7,6 @@ class JoinMateriasProfPolicy < ApplicationPolicy
   end
 
   def create?
-<<<<<<< HEAD
-    true
-=======
     user.admin?
->>>>>>> ec4887144c854fca6fe6aabad422c153578d21b6
   end
 end

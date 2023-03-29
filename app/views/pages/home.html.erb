@@ -22,7 +22,7 @@
 </div>
 <ul>
   <% Aluno.all.each do |aluno| %>
-    <li class="alunos"><%= I18n.transliterate(aluno.name).upcase %></li>
+    <li class="alunos d-none"><%= I18n.transliterate(aluno.name).upcase %></li>
   <% end %>
 </ul>
 <script>
@@ -39,9 +39,11 @@
     }
     alunos.forEach((element) => {
       if (lista.includes(element.innerText) === false) {
-        if (element.innerText.includes(search.value.toUpperCase())) {
-          result.insertAdjacentHTML('afterbegin', `<li>${element.innerText}</li>`);
-          lista.push(element.innerText.toUpperCase())
+        if (lista.length <= 10 ) {
+          if (element.innerText.includes(search.value.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toUpperCase())) {
+            result.insertAdjacentHTML('afterbegin', `<li>${element.innerText}</li>`);
+            lista.push(element.innerText.toUpperCase())
+          }
         }
       }
     });

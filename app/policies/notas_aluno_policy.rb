@@ -21,4 +21,8 @@ class NotasAlunoPolicy < ApplicationPolicy
   def update?
     user.role = "Professor" || user.role = "Admin"
   end
+
+  def destroy?
+    user.role = "Admin"
+  end
 end

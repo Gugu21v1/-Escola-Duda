@@ -1,28 +1,158 @@
 <br>
-<br>
 <div class="container">
-  <table class="responsive-table">
-    <caption>Aluno <%= @aluno.name %></caption>
-    <thead>
-      <tr>
-        <th scope="col">Horário</th>
-        <th scope="col">Nota</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% Horario.all.each do |horario| %>
-        <tr>
-          <th scope="row"><%= horario.nome %></th>
-          <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
-            <td data-title="Released">Aguardando Lançamento</td>
-          <% else %>
-            <td data-title="Released"><%= @aluno.notas_alunos.find_by(horario_id: horario.id).nota %></td>
-          <% end %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <%= link_to "Editar Aluno", edit_sala_aluno_path(@sala, @aluno) %>
+  <%= render 'notas_alunos/form', sala: @sala, aluno: @aluno, nota: @nota%>
 </div>
 <br>
-<%= link_to "Nova nota", new_sala_aluno_notas_aluno_path(@aluno.sala, @aluno) %>
-<%= render 'notas_alunos/form', sala: @sala, aluno: @aluno, nota: @nota%>
+<div class="container">
+  <div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          1° Trimestre
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <table class="responsive-table" id="myTable">
+            <caption>Aluno <%= @aluno.name %></caption>
+            <thead>
+              <tr>
+                <th scope="col">Horário</th>
+                <th scope="col">Nota</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% Horario.all.each do |horario| %>
+                <tr>
+                  <th scope="row"><%= horario.nome %></th>
+                  <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
+                    <td data-title="Released">Aguardando Lançamento</td>
+                  <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "1° Trimestre")%>
+                    <td data-title="Released"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "1° Trimestre").nota %>
+                      <br>
+                      <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "1° Trimestre")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+                    </td>
+                  <% else %>
+                    <td data-title="Released">Aguardando Lançamento</td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          2° Trimestre
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <table class="responsive-table" id="myTable">
+            <caption>Aluno <%= @aluno.name %></caption>
+            <thead>
+              <tr>
+                <th scope="col">Horário</th>
+                <th scope="col">Nota</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% Horario.all.each do |horario| %>
+                <tr>
+                  <th scope="row"><%= horario.nome %></th>
+                  <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
+                    <td data-title="Released">Aguardando Lançamento</td>
+                  <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "2° Trimestre")%>
+                    <td data-title="Released"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "2° Trimestre").nota %>
+                      <br>
+                      <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "2° Trimestre")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %></td>
+                  <% else %>
+                    <td data-title="Released">Aguardando Lançamento</td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          3° Trimestre
+        </button>
+      </h2>
+      <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <table class="responsive-table" id="myTable">
+            <caption>Aluno <%= @aluno.name %></caption>
+            <thead>
+              <tr>
+                <th scope="col">Horário</th>
+                <th scope="col">Nota</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% Horario.all.each do |horario| %>
+                <tr>
+                  <th scope="row"><%= horario.nome %></th>
+                  <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
+                    <td data-title="Released">Aguardando Lançamento</td>
+                  <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "3° Trimestre")%>
+                    <td data-title="Released"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "3° Trimestre").nota %>
+                      <br>
+                      <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "3° Trimestre")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+                    </td>
+                  <% else %>
+                    <td data-title="Released">Aguardando Lançamento</td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+          Final
+        </button>
+      </h2>
+      <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <table class="responsive-table" id="myTable">
+            <caption>Aluno <%= @aluno.name %></caption>
+            <thead>
+              <tr>
+                <th scope="col">Horário</th>
+                <th scope="col">Nota</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% Horario.all.each do |horario| %>
+                <tr>
+                  <th scope="row"><%= horario.nome %></th>
+                  <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
+                    <td data-title="Released">Aguardando Lançamento</td>
+                  <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "Final")%>
+                    <td data-title="Released"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "Final").nota %>
+                      <br>
+                      <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "Final")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+                    </td>
+                  <% else %>
+                    <td data-title="Released">Aguardando Lançamento</td>
+                  <% end %>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>

@@ -1,6 +1,8 @@
 class NotasAluno < ApplicationRecord
   belongs_to :horario
-  belongs_to :aluno, dependent: :destroy
+  belongs_to :aluno
 
-  validates :nota, :horario_id, presence: true
+  validates :nota, :horario, :trimestre, presence: true
+  validates :horario, uniqueness: { scope: :trimestre }
+
 end
