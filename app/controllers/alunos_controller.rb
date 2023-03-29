@@ -68,8 +68,6 @@ class AlunosController < ApplicationController
     @aluno = Aluno.find(params[:id])
     authorize @aluno
     @aluno.update(aluno_params)
-
-    redirect_to sala_path(@sala)
   end
 
   private

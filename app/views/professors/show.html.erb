@@ -5,3 +5,6 @@
 <% @professor.horarios.each do |horario| %>
   <%= horario.nome %>
 <% end %>
+<br>
+<br>
+<%= link_to "Edit", edit_sala_professor_path(@sala, @prof) %>

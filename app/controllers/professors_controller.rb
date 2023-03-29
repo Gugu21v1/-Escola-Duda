@@ -4,6 +4,8 @@ class ProfessorsController < ApplicationController
   end
 
   def show
+    @sala = Sala.find(params[:sala_id])
+    @prof = Professor.find(params[:id])
     @professor = Professor.find(params[:id])
     authorize @professor
   end
@@ -34,9 +36,23 @@ class ProfessorsController < ApplicationController
   end
 
   def edit
+    @sala = Sala.find(params[:sala_id])
+    @prof = Professor.find(params[:id])
+    authorize @prof
   end
 
   def update
+    @email = Professor.find(params[:id]).email
+    @sala = Sala.find(params[:sala_id])
+    @prof = Professor.find(params[:id])
+    authorize @prof
+    if @prof.update(professor_params) == false
+      render :edit, status: :unprocessable_entity
+    else
+      @user = User.find_by(email: @email)
+      @user.update!(email: params[:professor][:email])
+      redirect_to sala_professor_path(@sala, @prof)
+    end
   end
 
   private

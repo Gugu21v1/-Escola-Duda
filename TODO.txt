@@ -6,7 +6,7 @@ Formulario Criar Nova Secretaria
 Mostrar todos os alunos // Feito
 Mostrar todas as salas // Feito
 
-Editar Nota
+Editar Nota //
 Editar Professor
 Editar Aluno
 
@@ -14,7 +14,7 @@ Excluir Professor
 Excluir Aluno
 Editar Secretaria
 
-Separar Trimestres
+Separar Trimestres //
 
 Search Bar Para Aluno // Feito
 
