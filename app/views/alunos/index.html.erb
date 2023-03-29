@@ -5,7 +5,7 @@
     <% if @alunos %>
       <% @alunos.each do |aluno| %>
         <% if I18n.transliterate(aluno).upcase.include?(params[:query].upcase) %>
-          <%= aluno %>
+          <%= link_to aluno, sala_aluno_path(Aluno.find_by(name: aluno).sala_id, Aluno.find_by(name: aluno)) %>
         <% end %>
         <br>
       <% end %>

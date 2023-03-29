@@ -25,19 +25,37 @@
         <th scope="col">Conceitos</th>
         <th scope="col">Faltas</th>
         <th scope="col">Status</th>
+        <th scope="col">Enviar</th>
       </tr>
     </thead>
     <tbody>
+      <% i = 0 %>
       <% @alunos.each do |aluno| %>
-        <tr>
-          <th scope="row"><%= link_to aluno.name, sala_aluno_path(@sala, aluno) %></th>
-          <td data-title="Released"><%= aluno.matricula %></td>
-          <td data-title="Studio"><%= aluno.nascimento %></td>
-          <td data-title="Worldwide Gross" class="text-center" data-type="currency"><%= aluno.conceitos %></td>
-          <td data-title="Domestic Gross" class="text-center" data-type="currency"><%= aluno.faltas %></td>
-          <td data-title="International Gross" data-type="currency" class="text-center"><%= aluno.status %></td>
-        </tr>
+        <%= form_with model: [@sala, aluno] do |f| %>
+          <% i += 1 %>
+          <tr>
+            <th scope="row"><%= link_to aluno.name, sala_aluno_path(@sala, aluno) %></th>
+            <td data-title="Matrícula"><%= aluno.matricula %></td>
+            <td data-title="Nascimento"><%= aluno.nascimento %></td>
+            <td data-title="Conceitos" class="text-center" data-type="currency">  <%= f.label :conceitos %>
+              <%= f.text_field :conceitos %></td>
+            <td data-title="Faltas" class="text-center" data-type="currency">  <%= f.label :faltas %>
+              <%= f.text_field :faltas %></td>
+            <td data-title="Status" data-type="currency" class="text-center"><%= aluno.status %></td>
+            <td class="text-center"><%= f.button 'Submit', name: "button#{i} ", class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>
 </div>
+<script>
+  let btn = document.querySelectorAll(".refresh");
+  btn.forEach((element) => {
+    element.addEventListener("click", function() {
+      setTimeout(function() {
+        location.reload();
+      }, 500);
+    });
+  });
+</script>
