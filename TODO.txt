@@ -6,16 +6,21 @@ Formulario Criar Nova Secretaria
 Mostrar todos os alunos // Feito
 Mostrar todas as salas // Feito
 
-Editar Nota //
+Editar Nota // Feita
 Editar Professor
-Editar Aluno
+Editar Aluno // Feito
+Editar Secretaria
 
 Excluir Professor
 Excluir Aluno
-Editar Secretaria
+Excluir secretária
 
-Separar Trimestres //
+Separar Trimestres // Feito
 
 Search Bar Para Aluno // Feito
 
 Aluno fazer login com matricula
+
+Fórmulas do Boletim
+Lógica Boletim
+Criar Campo de Aulas Dadas e Aulas previstas // Feito

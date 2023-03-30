@@ -6,8 +6,10 @@ class NotasAlunosController < ApplicationController
     authorize @nota
     @horarios = []
     if current_user.admin == true
-      Horario.all.each do |horario|
-        @horarios << horario.nome
+      @sala.horarios.each do |horario|
+        if @horarios.include?(horario.nome) == false
+          @horarios << horario.nome
+        end
       end
     elsif current_user.role == "Professor"
       prof = Professor.find_by(email: current_user.email)
@@ -19,9 +21,12 @@ class NotasAlunosController < ApplicationController
 
   def create
     @horarios = []
+    @sala = Sala.find(params[:sala_id])
     if current_user.admin == true
-      Horario.all.each do |horario|
-        @horarios << horario.nome
+      @sala.horarios.each do |horario|
+        if @horarios.include?(horario.nome) == false
+          @horarios << horario.nome
+        end
       end
     elsif current_user.role == "Professor"
       prof = Professor.find_by(email: current_user.email)
@@ -29,9 +34,8 @@ class NotasAlunosController < ApplicationController
         @horarios << horario.horario.nome
       end
     end
-    @sala = Sala.find(params[:sala_id])
     @aluno = Aluno.find(params[:aluno_id])
-    @horario = Horario.find_by(nome: params[:notas_aluno][:horario_id])
+    @horario = @sala.horarios.find_by(nome: params[:notas_aluno][:horario_id], trimestre: params[:notas_aluno][:trimestre])
     @trimestre = params[:notas_aluno][:trimestre]
     @nota = NotasAluno.new(nota_params)
     @nota.aluno = @aluno
@@ -50,11 +54,14 @@ class NotasAlunosController < ApplicationController
   end
 
   def update
+    @horario = Horario.all
+    @aluno = Aluno.find(params[:aluno_id])
     @sala = Sala.find(params[:sala_id])
     @nota = NotasAluno.find(params[:id])
-    @nota.update(nota_params)
-    # No need for app/views/restaurants/update.html.erb
-    redirect_to sala_aluno_path(@sala, @aluno)
+    authorize @nota
+    if @nota.update(nota_params) == false
+      render 'alunos/show', status: :unprocessable_entity
+    end
   end
 
   def destroy
@@ -69,6 +76,6 @@ class NotasAlunosController < ApplicationController
   private
 
   def nota_params
-    params.require(:notas_aluno).permit(:nota, :aluno_id, :horario_id, :trimestre)
+    params.require(:notas_aluno).permit(:nota, :aluno_id, :horario_id, :trimestre, :aulas_dadas, :aulas_previstas)
   end
 end

@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :professors
     resources :alunos do
       resources :notas_alunos, only: %i[new create edit update destroy]
+      resources :horarios, only: %i[edit update]
     end
   end
   resources :alunos, only: %i[index]

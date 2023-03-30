@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_22_175937) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_30_174931) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -36,12 +36,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_22_175937) do
     t.string "aulas_previstas"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "sala_id", null: false
+    t.string "trimestre"
+    t.index ["sala_id"], name: "index_horarios_on_sala_id"
   end
 
   create_table "join_materias_profs", force: :cascade do |t|
     t.bigint "professor_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "horario_id", null: false
+    t.index ["horario_id"], name: "index_join_materias_profs_on_horario_id"
     t.index ["professor_id"], name: "index_join_materias_profs_on_professor_id"
   end
 
@@ -102,7 +107,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_22_175937) do
   end
 
   add_foreign_key "alunos", "salas"
+  add_foreign_key "horarios", "salas"
+  add_foreign_key "join_materias_profs", "horarios"
   add_foreign_key "join_materias_profs", "professors"
   add_foreign_key "joins", "professors"
   add_foreign_key "joins", "salas"
+  add_foreign_key "notas_alunos", "alunos"
+  add_foreign_key "notas_alunos", "horarios"
 end

@@ -20,9 +20,12 @@ class AlunosController < ApplicationController
 
   def show
     @horarios = []
+    @sala = Sala.find(params[:sala_id])
     if current_user.admin == true
-      Horario.all.each do |horario|
-        @horarios << horario.nome
+      @sala.horarios.each do |horario|
+        if @horarios.include?(horario.nome) == false
+          @horarios << horario.nome
+        end
       end
     elsif current_user.role == "Professor"
       prof = Professor.find_by(email: current_user.email)
@@ -30,7 +33,6 @@ class AlunosController < ApplicationController
         @horarios << horario.horario.nome
       end
     end
-    @sala = Sala.find(params[:sala_id])
     @aluno = Aluno.find(params[:id])
     authorize @aluno
     @nota = NotasAluno.new
@@ -60,14 +62,23 @@ class AlunosController < ApplicationController
   def edit
     @sala = Sala.find(params[:sala_id])
     @aluno = Aluno.find(params[:id])
+    @lista = @sala.horarios
     authorize @aluno
   end
 
   def update
+    @email = Aluno.find(params[:id]).email
     @sala = Sala.find(params[:sala_id])
+    @lista = @sala.horarios
     @aluno = Aluno.find(params[:id])
     authorize @aluno
-    @aluno.update(aluno_params)
+    if @aluno.update(aluno_params) == false
+      render :edit, status: :unprocessable_entity
+    else
+      @user = User.find_by(email: @email)
+      @user.update!(email: params[:aluno][:email])
+      redirect_to sala_aluno_path(@sala, @aluno)
+    end
   end
 
   private

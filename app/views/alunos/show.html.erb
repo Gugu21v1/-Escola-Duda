@@ -20,23 +20,61 @@
               <tr>
                 <th scope="col">Horário</th>
                 <th scope="col">Nota</th>
+                <th scope="col">Aulas Previstas</th>
+                <th scope="col">Aulas Dadas</th>
+                <th scope="col">Enviar</th>
               </tr>
             </thead>
             <tbody>
-              <% Horario.all.each do |horario| %>
-                <tr>
-                  <th scope="row"><%= horario.nome %></th>
-                  <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
-                    <td data-title="Released">Aguardando Lançamento</td>
-                  <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "1° Trimestre")%>
-                    <td data-title="Released"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "1° Trimestre").nota %>
-                      <br>
-                      <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "1° Trimestre")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
-                    </td>
-                  <% else %>
-                    <td data-title="Released">Aguardando Lançamento</td>
-                  <% end %>
-                </tr>
+              <% @sala.horarios.each do |horario| %>
+                <% if horario.trimestre == "1° Trimestre" %>
+                  <tr>
+                    <th scope="row"><%= horario.nome %></th>
+                    <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
+                      <td data-title="Nota">Aguardando Lançamento</td>
+                      <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                        <td data-title="Previstas">
+                          <%= f.label :aulas_previstas %>
+                          <%= f.text_field :aulas_previstas %>
+                        </td>
+                        <td data-title="Dadas">
+                          <%= f.label :aulas_dadas %>
+                          <%= f.text_field :aulas_dadas %>
+                          <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                        </td>
+                      <% end %>
+                    <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "1° Trimestre")%>
+                      <td data-title="Nota"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "1° Trimestre").nota %>
+                        <br>
+                        <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "1° Trimestre")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+                      </td>
+                      <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                        <td data-title="Previstas">
+                          <%= f.label :aulas_previstas %>
+                          <%= f.text_field :aulas_previstas %>
+                        </td>
+                        <td data-title="Dadas">
+                          <%= f.label :aulas_dadas %>
+                          <%= f.text_field :aulas_dadas %>
+                          <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                        </td>
+                      <% end %>
+                    <% else %>
+                      <td data-title="Nota">Aguardando Lançamento</td>
+                      <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                        <td data-title="Previstas">
+                          <%= f.label :aulas_previstas %>
+                          <%= f.text_field :aulas_previstas %>
+                        </td>
+                        <td data-title="Dadas">
+                          <%= f.label :aulas_dadas %>
+                          <%= f.text_field :aulas_dadas %>
+                          <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                        </td>
+                      <% end %>
+                    <% end %>
+                  </tr>
+                <% end %>
               <% end %>
             </tbody>
           </table>
@@ -57,22 +95,61 @@
               <tr>
                 <th scope="col">Horário</th>
                 <th scope="col">Nota</th>
+                <th scope="col">Aulas Previstas</th>
+                <th scope="col">Aulas Dadas</th>
+                <th scope="col">Enviar</th>
               </tr>
             </thead>
             <tbody>
-              <% Horario.all.each do |horario| %>
-                <tr>
-                  <th scope="row"><%= horario.nome %></th>
-                  <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
-                    <td data-title="Released">Aguardando Lançamento</td>
-                  <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "2° Trimestre")%>
-                    <td data-title="Released"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "2° Trimestre").nota %>
-                      <br>
-                      <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "2° Trimestre")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %></td>
-                  <% else %>
-                    <td data-title="Released">Aguardando Lançamento</td>
-                  <% end %>
-                </tr>
+              <% @sala.horarios.each do |horario| %>
+                <% if horario.trimestre == "2° Trimestre" %>
+                  <tr>
+                    <th scope="row"><%= horario.nome %></th>
+                    <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
+                      <td data-title="Nota">Aguardando Lançamento</td>
+                      <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                        <td data-title="Previstas">
+                          <%= f.label :aulas_previstas %>
+                          <%= f.text_field :aulas_previstas %>
+                        </td>
+                        <td data-title="Dadas">
+                          <%= f.label :aulas_dadas %>
+                          <%= f.text_field :aulas_dadas %>
+                          <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                        </td>
+                      <% end %>
+                    <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "2° Trimestre")%>
+                      <td data-title="Nota"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "2° Trimestre").nota %>
+                        <br>
+                        <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "2° Trimestre")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+                      </td>
+                      <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                        <td data-title="Previstas">
+                          <%= f.label :aulas_previstas %>
+                          <%= f.text_field :aulas_previstas %>
+                        </td>
+                        <td data-title="Dadas">
+                          <%= f.label :aulas_dadas %>
+                          <%= f.text_field :aulas_dadas %>
+                          <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                        </td>
+                      <% end %>
+                    <% else %>
+                      <td data-title="Nota">Aguardando Lançamento</td>
+                      <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                        <td data-title="Previstas">
+                          <%= f.label :aulas_previstas %>
+                          <%= f.text_field :aulas_previstas %>
+                        </td>
+                        <td data-title="Dadas">
+                          <%= f.label :aulas_dadas %>
+                          <%= f.text_field :aulas_dadas %>
+                          <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                        </td>
+                      <% end %>
+                    <% end %>
+                  </tr>
+                <% end %>
               <% end %>
             </tbody>
           </table>
@@ -93,23 +170,61 @@
               <tr>
                 <th scope="col">Horário</th>
                 <th scope="col">Nota</th>
+                <th scope="col">Aulas Previstas</th>
+                <th scope="col">Aulas Dadas</th>
+                <th scope="col">Submit</th>
               </tr>
             </thead>
             <tbody>
-              <% Horario.all.each do |horario| %>
-                <tr>
-                  <th scope="row"><%= horario.nome %></th>
-                  <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
-                    <td data-title="Released">Aguardando Lançamento</td>
-                  <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "3° Trimestre")%>
-                    <td data-title="Released"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "3° Trimestre").nota %>
-                      <br>
-                      <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "3° Trimestre")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
-                    </td>
-                  <% else %>
-                    <td data-title="Released">Aguardando Lançamento</td>
-                  <% end %>
-                </tr>
+              <% @sala.horarios.each do |horario| %>
+                <% if horario.trimestre == "3° Trimestre" %>
+                  <tr>
+                    <th scope="row"><%= horario.nome %></th>
+                    <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
+                      <td data-title="Nota">Aguardando Lançamento</td>
+                      <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                        <td data-title="Previstas">
+                          <%= f.label :aulas_previstas %>
+                          <%= f.text_field :aulas_previstas %>
+                        </td>
+                        <td data-title="Dadas">
+                          <%= f.label :aulas_dadas %>
+                          <%= f.text_field :aulas_dadas %>
+                          <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                        </td>
+                      <% end %>
+                    <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "3° Trimestre")%>
+                      <td data-title="Nota"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "3° Trimestre").nota %>
+                        <br>
+                        <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "3° Trimestre")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+                      </td>
+                      <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                        <td data-title="Previstas">
+                          <%= f.label :aulas_previstas %>
+                          <%= f.text_field :aulas_previstas %>
+                        </td>
+                        <td data-title="Dadas">
+                          <%= f.label :aulas_dadas %>
+                          <%= f.text_field :aulas_dadas %>
+                          <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                        </td>
+                      <% end %>
+                    <% else %>
+                      <td data-title="Nota">Aguardando Lançamento</td>
+                      <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                        <td data-title="Previstas">
+                          <%= f.label :aulas_previstas %>
+                          <%= f.text_field :aulas_previstas %>
+                        </td>
+                        <td data-title="Dadas">
+                          <%= f.label :aulas_dadas %>
+                          <%= f.text_field :aulas_dadas %>
+                          <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                        </td>
+                      <% end %>
+                    <% end %>
+                  </tr>
+                <% end %>
               <% end %>
             </tbody>
           </table>
@@ -130,23 +245,61 @@
               <tr>
                 <th scope="col">Horário</th>
                 <th scope="col">Nota</th>
+                <th scope="col">Aulas Previstas</th>
+                <th scope="col">Aulas Dadas</th>
+                <th scope="col">Submit</th>
               </tr>
             </thead>
             <tbody>
-              <% Horario.all.each do |horario| %>
-                <tr>
-                  <th scope="row"><%= horario.nome %></th>
-                  <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
-                    <td data-title="Released">Aguardando Lançamento</td>
-                  <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "Final")%>
-                    <td data-title="Released"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "Final").nota %>
-                      <br>
-                      <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "Final")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
-                    </td>
-                  <% else %>
-                    <td data-title="Released">Aguardando Lançamento</td>
-                  <% end %>
-                </tr>
+              <% @sala.horarios.each do |horario| %>
+                <% if horario.trimestre == "Final" %>
+                  <tr>
+                    <th scope="row"><%= horario.nome %></th>
+                    <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
+                      <td data-title="Nota">Aguardando Lançamento</td>
+                      <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                        <td data-title="Previstas">
+                          <%= f.label :aulas_previstas %>
+                          <%= f.text_field :aulas_previstas %>
+                        </td>
+                        <td data-title="Dadas">
+                          <%= f.label :aulas_dadas %>
+                          <%= f.text_field :aulas_dadas %>
+                          <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                        </td>
+                      <% end %>
+                    <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "Final")%>
+                      <td data-title="Nota"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "Final").nota %>
+                        <br>
+                        <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "Final")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+                      </td>
+                      <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                        <td data-title="Previstas">
+                          <%= f.label :aulas_previstas %>
+                          <%= f.text_field :aulas_previstas %>
+                        </td>
+                        <td data-title="Dadas">
+                          <%= f.label :aulas_dadas %>
+                          <%= f.text_field :aulas_dadas %>
+                          <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                        </td>
+                      <% end %>
+                    <% else %>
+                      <td data-title="Nota">Aguardando Lançamento</td>
+                      <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                        <td data-title="Previstas">
+                          <%= f.label :aulas_previstas %>
+                          <%= f.text_field :aulas_previstas %>
+                        </td>
+                        <td data-title="Dadas">
+                          <%= f.label :aulas_dadas %>
+                          <%= f.text_field :aulas_dadas %>
+                          <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                        </td>
+                      <% end %>
+                    <% end %>
+                  </tr>
+                <% end %>
               <% end %>
             </tbody>
           </table>

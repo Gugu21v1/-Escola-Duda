@@ -1,7 +1,7 @@
 <%= simple_form_for [sala, aluno, nota] do |f| %>
   <%= f.error_notification %>
   <%= f.input :trimestre, :collection => { '1° Trimestre' => '1° Trimestre', '2° Trimestre' => '2° Trimestre', '3° Trimestre' => '3° Trimestre', 'Final' => 'Final'} %>
-  <%= f.association :horario, collection: @horarios %>
+  <%= f.association :horario, label: "Matéria", collection: @horarios %>
   <%= f.input :nota %>
   <%= f.submit %>
 <% end %>

@@ -37,10 +37,14 @@
             <th scope="row"><%= link_to aluno.name, sala_aluno_path(@sala, aluno) %></th>
             <td data-title="Matrícula"><%= aluno.matricula %></td>
             <td data-title="Nascimento"><%= aluno.nascimento %></td>
-            <td data-title="Conceitos" class="text-center" data-type="currency">  <%= f.label :conceitos %>
-              <%= f.text_field :conceitos %></td>
-            <td data-title="Faltas" class="text-center" data-type="currency">  <%= f.label :faltas %>
-              <%= f.text_field :faltas %></td>
+            <td data-title="Conceitos" class="text-center" data-type="currency">
+              <%= f.label :conceitos %>
+              <%= f.text_field :conceitos %>
+            </td>
+            <td data-title="Faltas" class="text-center" data-type="currency">
+              <%= f.label :faltas %>
+              <%= f.text_field :faltas %>
+            </td>
             <td data-title="Status" data-type="currency" class="text-center"><%= aluno.status %></td>
             <td class="text-center"><%= f.button 'Submit', name: "button#{i} ", class:"btn btn-secondary rounded rounded-5 refresh"%></td>
           </tr>
