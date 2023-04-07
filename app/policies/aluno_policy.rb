@@ -7,7 +7,11 @@ class AlunoPolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    if user.role == "Professor" || user.admin == true || user.matricula == record.matricula
+      true
+    else
+      false
+    end
   end
 
   def create?

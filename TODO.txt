@@ -23,4 +23,5 @@ Aluno fazer login com matricula
 
 Fórmulas do Boletim
 Lógica Boletim
+Adicionar nome dos pais aos alunos
 Criar Campo de Aulas Dadas e Aulas previstas // Feito

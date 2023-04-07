@@ -51,7 +51,7 @@ class AlunosController < ApplicationController
     @aluno.role = 'Aluno'
     authorize @aluno
     if @aluno.save
-      @aluno_user = User.create(email: @aluno.email, password: @aluno.password, role: "Aluno")
+      @aluno_user = User.create(email: @aluno.email, password: @aluno.password, role: "Aluno", matricula: @aluno.matricula)
       authorize @aluno_user
       redirect_to sala_path(@sala)
     else
