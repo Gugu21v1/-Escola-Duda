@@ -1,0 +1,7 @@
+<h1>Permissaos#edit</h1>
+<p>Find me in app/views/permissaos/edit.html.erb</p>
+<%= simple_form_for(@perm, method: :patch, url: permissao_path) do |f| %>
+  <%= f.error_notification %>
+  <%= f.input :visivel %>
+  <%= f.submit %>
+<% end %>

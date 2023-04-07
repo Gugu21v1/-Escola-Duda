@@ -9,4 +9,18 @@ class PagesController < ApplicationController
       end
     end
   end
+
+  def admin
+    if current_user.admin? == false
+      redirect_to root_path
+      flash[:alert] = "Você não tem permissão para acessar essa página!"
+    end
+    @perm = Permissao.find(1)
+  end
+
+  private
+
+  def admin?
+    current_user.admin?
+  end
 end

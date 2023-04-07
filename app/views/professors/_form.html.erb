@@ -1,9 +1,8 @@
-<div class="container text-center"><%= simple_form_for [sala, professor] do |f| %>
+<div class="container text-center">
+  <%= simple_form_for [sala, professor] do |f| %>
     <%= f.input :email %>
     <%= f.input :name %>
     <%= f.input :password %>
-    <%= f.input :password_confirmation,
-                input_html: { autocomplete: "new-password" } %>
     <%= f.submit %>
   <% end %>
 </div>

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
   root to: "pages#home"
-
+  get 'admin', to: 'pages#admin'
   resources :salas do
     resources :professors
     resources :alunos do
@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resources :horarios, only: %i[edit update]
     end
   end
+  resources :permissaos, only: %i[edit update]
   resources :alunos, only: %i[index]
   resources :joins, only: %i[new create]
   resources :join_materias_profs, only: %i[new create]

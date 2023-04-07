@@ -13,7 +13,15 @@
             <%= link_to "Home", "#", class: "nav-link" %>
           </li>
           <li class="nav-item">
-            <div class="nav-link"><%= current_user.role %></div>
+            <div class="">
+              <% if current_user.role == "Admin" %>
+                <%= link_to current_user.role, admin_path, class: "nav-link" %>
+              <% elsif current_user.role == "Professor" %>
+                <%= link_to current_user.role, sala_professor_path(Sala.find_by(id: Professor.find_by(email: current_user.email).salas.first.id), Professor.find_by(email: current_user.email)), class: "nav-link" %>
+              <% elsif current_user.role == "Aluno" %>
+                <%= link_to current_user.role, sala_aluno_path(Sala.find_by(id: Aluno.find_by(matricula: current_user.matricula).sala.id), Aluno.find_by(matricula: current_user.matricula)), class: "nav-link" %>
+              <% end %>
+            </div>
           </li>
           <li class="nav-item dropdown">
             <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>

@@ -1,0 +1,5 @@
+<%= simple_form_for(perm, method: :patch, url: permissao_path(1)) do |f| %>
+  <%= f.error_notification %>
+  <%= f.input :visivel %>
+  <%= f.submit %>
+<% end %>

@@ -1,261 +1,62 @@
 <br>
 <div class="container">
-  <%= link_to "Editar Aluno", edit_sala_aluno_path(@sala, @aluno) %>
-  <%= render 'notas_alunos/form', sala: @sala, aluno: @aluno, nota: @nota%>
+  <% if current_user.role == "Admin" || current_user.role == "Professor" %>
+    <%= link_to "Editar Aluno", edit_sala_aluno_path(@sala, @aluno) %>
+    <%= render 'notas_alunos/form', sala: @sala, aluno: @aluno, nota: @nota%>
+  <% end %>
 </div>
 <br>
 <div class="container">
-  <div class="accordion" id="accordionExample">
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          1° Trimestre
-        </button>
-      </h2>
-      <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <table class="responsive-table" id="myTable">
-            <caption>Aluno <%= @aluno.name %></caption>
-            <thead>
-              <tr>
-                <th scope="col">Horário</th>
-                <th scope="col">Nota</th>
-                <th scope="col">Aulas Previstas</th>
-                <th scope="col">Aulas Dadas</th>
-                <th scope="col">Enviar</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @sala.horarios.each do |horario| %>
-                <% if horario.trimestre == "1° Trimestre" %>
-                  <tr>
-                    <th scope="row"><%= horario.nome %></th>
-                    <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
-                      <td data-title="Nota">Aguardando Lançamento</td>
-                      <% if current_user.role == "Professor" %>
-                        <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
-                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
-                            <td data-title="Previstas">
-                              <%= f.label :aulas_previstas %>
-                              <%= f.text_field :aulas_previstas %>
-                            </td>
-                            <td data-title="Dadas">
-                              <%= f.label :aulas_dadas %>
-                              <%= f.text_field :aulas_dadas %>
-                              <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
-                            </td>
-                          <% end %>
-                        <% else %>
-                          <td data-title="Previstas">
-                            <%= horario.aulas_previstas %>
-                          </td>
-                          <td data-title="Dadas">
-                            <%= horario.aulas_dadas %>
-                          </td>
-                        <% end %>
-                      <% elsif  current_user.role == "Admin" %>
-                        <%= form_with model: [@sala, @aluno, horario] do |f| %>
-                          <td data-title="Previstas">
-                            <%= f.label :aulas_previstas %>
-                            <%= f.text_field :aulas_previstas %>
-                          </td>
-                          <td data-title="Dadas">
-                            <%= f.label :aulas_dadas %>
-                            <%= f.text_field :aulas_dadas %>
-                            <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
-                          </td>
-                        <% end %>
-                      <% else %>
-                        <td data-title="Previstas">
-                          <%= horario.aulas_previstas %>
-                        </td>
-                        <td data-title="Dadas">
-                          <%= horario.aulas_dadas %>
-                        </td>
-                      <% end %>
-                    <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "1° Trimestre")%>
-                      <td data-title="Nota"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "1° Trimestre").nota %>
-                        <br>
-                        <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "1° Trimestre")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
-                      </td>
-                      <% if current_user.role == "Professor" %>
-                        <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
-                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
-                            <td data-title="Previstas">
-                              <%= f.label :aulas_previstas %>
-                              <%= f.text_field :aulas_previstas %>
-                            </td>
-                            <td data-title="Dadas">
-                              <%= f.label :aulas_dadas %>
-                              <%= f.text_field :aulas_dadas %>
-                              <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
-                            </td>
-                          <% end %>
-                        <% else %>
-                          <td data-title="Previstas">
-                            <%= horario.aulas_previstas %>
-                          </td>
-                          <td data-title="Dadas">
-                            <%= horario.aulas_dadas %>
-                          </td>
-                        <% end %>
-                      <% elsif  current_user.role == "Admin" %>
-                        <%= form_with model: [@sala, @aluno, horario] do |f| %>
-                          <td data-title="Previstas">
-                            <%= f.label :aulas_previstas %>
-                            <%= f.text_field :aulas_previstas %>
-                          </td>
-                          <td data-title="Dadas">
-                            <%= f.label :aulas_dadas %>
-                            <%= f.text_field :aulas_dadas %>
-                            <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
-                          </td>
-                        <% end %>
-                      <% else %>
-                        <td data-title="Previstas">
-                          <%= horario.aulas_previstas %>
-                        </td>
-                        <td data-title="Dadas">
-                          <%= horario.aulas_dadas %>
-                        </td>
-                      <% end %>
-                    <% else %>
-                      <td data-title="Nota">Aguardando Lançamento</td>
-                      <% if current_user.role == "Professor" %>
-                        <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
-                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
-                            <td data-title="Previstas">
-                              <%= f.label :aulas_previstas %>
-                              <%= f.text_field :aulas_previstas %>
-                            </td>
-                            <td data-title="Dadas">
-                              <%= f.label :aulas_dadas %>
-                              <%= f.text_field :aulas_dadas %>
-                              <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
-                            </td>
-                          <% end %>
-                        <% else %>
-                          <td data-title="Previstas">
-                            <%= horario.aulas_previstas %>
-                          </td>
-                          <td data-title="Dadas">
-                            <%= horario.aulas_dadas %>
-                          </td>
-                        <% end %>
-                      <% elsif  current_user.role == "Admin" %>
-                        <%= form_with model: [@sala, @aluno, horario] do |f| %>
-                          <td data-title="Previstas">
-                            <%= f.label :aulas_previstas %>
-                            <%= f.text_field :aulas_previstas %>
-                          </td>
-                          <td data-title="Dadas">
-                            <%= f.label :aulas_dadas %>
-                            <%= f.text_field :aulas_dadas %>
-                            <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
-                          </td>
-                        <% end %>
-                      <% else %>
-                        <td data-title="Previstas">
-                          <%= horario.aulas_previstas %>
-                        </td>
-                        <td data-title="Dadas">
-                          <%= horario.aulas_dadas %>
-                        </td>
-                      <% end %>
-                    <% end %>
-                  </tr>
-                <% end %>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          2° Trimestre
-        </button>
-      </h2>
-      <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <table class="responsive-table" id="myTable">
-            <caption>Aluno <%= @aluno.name %></caption>
-            <thead>
-              <tr>
-                <th scope="col">Horário</th>
-                <th scope="col">Nota</th>
-                <th scope="col">Aulas Previstas</th>
-                <th scope="col">Aulas Dadas</th>
-                <th scope="col">Enviar</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @sala.horarios.each do |horario| %>
-                <% if horario.trimestre == "2° Trimestre" %>
-                  <tr>
-                    <th scope="row"><%= horario.nome %></th>
-                    <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
-                      <td data-title="Nota">Aguardando Lançamento</td>
-                      <% if current_user.role == "Professor" %>
-                        <% if Professor.find_by(email: current_user.email) %>
-                          <% Professor.find_by(email: current_user.email).horarios.each do |ohorario| %>
-                            <% if horario.nome == ohorario.nome %>
-                              <%= form_with model: [@sala, @aluno, horario] do |f| %>
-                                <td data-title="Previstas">
-                                  <%= f.label :aulas_previstas %>
-                                  <%= f.text_field :aulas_previstas %>
-                                </td>
-                                <td data-title="Dadas">
-                                  <%= f.label :aulas_dadas %>
-                                  <%= f.text_field :aulas_dadas %>
-                                  <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
-                                </td>
-                              <% end %>
-                            <% else %>
+  <% if current_user.role == "Aluno" && Permissao.first.visivel == true || current_user.role == "Admin" || current_user.role == "Professor" %>
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            1° Trimestre
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <table class="responsive-table" id="myTable">
+              <caption>Aluno <%= @aluno.name %></caption>
+              <thead>
+                <tr>
+                  <th scope="col">Horário</th>
+                  <th scope="col">Nota</th>
+                  <th scope="col">Aulas Previstas</th>
+                  <th scope="col">Aulas Dadas</th>
+                  <th scope="col">Enviar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @sala.horarios.each do |horario| %>
+                  <% if horario.trimestre == "1° Trimestre" %>
+                    <tr>
+                      <th scope="row"><%= horario.nome %></th>
+                      <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
+                        <td data-title="Nota">Aguardando Lançamento</td>
+                        <% if current_user.role == "Professor" %>
+                          <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
+                            <%= form_with model: [@sala, @aluno, horario] do |f| %>
                               <td data-title="Previstas">
-                                <%= horario.aulas_previstas %>
+                                <%= f.label :aulas_previstas %>
+                                <%= f.text_field :aulas_previstas %>
                               </td>
                               <td data-title="Dadas">
-                                <%= horario.aulas_dadas %>
+                                <%= f.label :aulas_dadas %>
+                                <%= f.text_field :aulas_dadas %>
+                                <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
                               </td>
                             <% end %>
+                          <% else %>
+                            <td data-title="Previstas">
+                              <%= horario.aulas_previstas %>
+                            </td>
+                            <td data-title="Dadas">
+                              <%= horario.aulas_dadas %>
+                            </td>
                           <% end %>
-                        <% else %>
-                          <td data-title="Previstas">
-                            <%= horario.aulas_previstas %>
-                          </td>
-                          <td data-title="Dadas">
-                            <%= horario.aulas_dadas %>
-                          </td>
-                        <% end %>
-                      <% elsif  current_user.role == "Admin" %>
-                        <%= form_with model: [@sala, @aluno, horario] do |f| %>
-                          <td data-title="Previstas">
-                            <%= f.label :aulas_previstas %>
-                            <%= f.text_field :aulas_previstas %>
-                          </td>
-                          <td data-title="Dadas">
-                            <%= f.label :aulas_dadas %>
-                            <%= f.text_field :aulas_dadas %>
-                            <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
-                          </td>
-                        <% end %>
-                      <% else %>
-                        <td data-title="Previstas">
-                          <%= horario.aulas_previstas %>
-                        </td>
-                        <td data-title="Dadas">
-                          <%= horario.aulas_dadas %>
-                        </td>
-                      <% end %>
-                    <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "2° Trimestre")%>
-                      <td data-title="Nota"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "2° Trimestre").nota %>
-                        <br>
-                        <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "2° Trimestre")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
-                      </td>
-                      <% if current_user.role == "Professor" %>
-                        <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
+                        <% elsif  current_user.role == "Admin" %>
                           <%= form_with model: [@sala, @aluno, horario] do |f| %>
                             <td data-title="Previstas">
                               <%= f.label :aulas_previstas %>
@@ -275,163 +76,33 @@
                             <%= horario.aulas_dadas %>
                           </td>
                         <% end %>
-                      <% elsif  current_user.role == "Admin" %>
-                        <%= form_with model: [@sala, @aluno, horario] do |f| %>
-                          <td data-title="Previstas">
-                            <%= f.label :aulas_previstas %>
-                            <%= f.text_field :aulas_previstas %>
-                          </td>
-                          <td data-title="Dadas">
-                            <%= f.label :aulas_dadas %>
-                            <%= f.text_field :aulas_dadas %>
-                            <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
-                          </td>
-                        <% end %>
-                      <% else %>
-                        <td data-title="Previstas">
-                          <%= horario.aulas_previstas %>
+                      <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "1° Trimestre")%>
+                        <td data-title="Nota"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "1° Trimestre").nota %>
+                          <br>
+                          <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "1° Trimestre")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
                         </td>
-                        <td data-title="Dadas">
-                          <%= horario.aulas_dadas %>
-                        </td>
-                      <% end %>
-                    <% else %>
-                      <td data-title="Nota">Aguardando Lançamento</td>
-                      <% if current_user.role == "Professor" %>
-                        <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
-                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
-                            <td data-title="Previstas">
-                              <%= f.label :aulas_previstas %>
-                              <%= f.text_field :aulas_previstas %>
-                            </td>
-                            <td data-title="Dadas">
-                              <%= f.label :aulas_dadas %>
-                              <%= f.text_field :aulas_dadas %>
-                              <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
-                            </td>
-                          <% end %>
-                        <% else %>
-                          <td data-title="Previstas">
-                            <%= horario.aulas_previstas %>
-                          </td>
-                          <td data-title="Dadas">
-                            <%= horario.aulas_dadas %>
-                          </td>
-                        <% end %>
-                      <% elsif  current_user.role == "Admin" %>
-                        <%= form_with model: [@sala, @aluno, horario] do |f| %>
-                          <td data-title="Previstas">
-                            <%= f.label :aulas_previstas %>
-                            <%= f.text_field :aulas_previstas %>
-                          </td>
-                          <td data-title="Dadas">
-                            <%= f.label :aulas_dadas %>
-                            <%= f.text_field :aulas_dadas %>
-                            <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
-                          </td>
-                        <% end %>
-                      <% else %>
-                        <td data-title="Previstas">
-                          <%= horario.aulas_previstas %>
-                        </td>
-                        <td data-title="Dadas">
-                          <%= horario.aulas_dadas %>
-                        </td>
-                      <% end %>
-                    <% end %>
-                  </tr>
-                <% end %>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          3° Trimestre
-        </button>
-      </h2>
-      <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <table class="responsive-table" id="myTable">
-            <caption>Aluno <%= @aluno.name %></caption>
-            <thead>
-              <tr>
-                <th scope="col">Horário</th>
-                <th scope="col">Nota</th>
-                <th scope="col">Aulas Previstas</th>
-                <th scope="col">Aulas Dadas</th>
-                <th scope="col">Submit</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @sala.horarios.each do |horario| %>
-                <% if horario.trimestre == "3° Trimestre" %>
-                  <tr>
-                    <th scope="row"><%= horario.nome %></th>
-                    <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
-                      <td data-title="Nota">Aguardando Lançamento</td>
-                      <% if current_user.role == "Professor" %>
-                        <% if Professor.find_by(email: current_user.email) %>
-                          <% Professor.find_by(email: current_user.email).horarios.each do |ohorario| %>
-                            <% if horario.nome == ohorario.nome %>
-                              <%= form_with model: [@sala, @aluno, horario] do |f| %>
-                                <td data-title="Previstas">
-                                  <%= f.label :aulas_previstas %>
-                                  <%= f.text_field :aulas_previstas %>
-                                </td>
-                                <td data-title="Dadas">
-                                  <%= f.label :aulas_dadas %>
-                                  <%= f.text_field :aulas_dadas %>
-                                  <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
-                                </td>
-                              <% end %>
-                            <% else %>
+                        <% if current_user.role == "Professor" %>
+                          <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
+                            <%= form_with model: [@sala, @aluno, horario] do |f| %>
                               <td data-title="Previstas">
-                                <%= horario.aulas_previstas %>
+                                <%= f.label :aulas_previstas %>
+                                <%= f.text_field :aulas_previstas %>
                               </td>
                               <td data-title="Dadas">
-                                <%= horario.aulas_dadas %>
+                                <%= f.label :aulas_dadas %>
+                                <%= f.text_field :aulas_dadas %>
+                                <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
                               </td>
                             <% end %>
+                          <% else %>
+                            <td data-title="Previstas">
+                              <%= horario.aulas_previstas %>
+                            </td>
+                            <td data-title="Dadas">
+                              <%= horario.aulas_dadas %>
+                            </td>
                           <% end %>
-                        <% else %>
-                          <td data-title="Previstas">
-                            <%= horario.aulas_previstas %>
-                          </td>
-                          <td data-title="Dadas">
-                            <%= horario.aulas_dadas %>
-                          </td>
-                        <% end %>
-                      <% elsif  current_user.role == "Admin" %>
-                        <%= form_with model: [@sala, @aluno, horario] do |f| %>
-                          <td data-title="Previstas">
-                            <%= f.label :aulas_previstas %>
-                            <%= f.text_field :aulas_previstas %>
-                          </td>
-                          <td data-title="Dadas">
-                            <%= f.label :aulas_dadas %>
-                            <%= f.text_field :aulas_dadas %>
-                            <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
-                          </td>
-                        <% end %>
-                      <% else %>
-                        <td data-title="Previstas">
-                          <%= horario.aulas_previstas %>
-                        </td>
-                        <td data-title="Dadas">
-                          <%= horario.aulas_dadas %>
-                        </td>
-                      <% end %>
-                    <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "3° Trimestre")%>
-                      <td data-title="Nota"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "3° Trimestre").nota %>
-                        <br>
-                        <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "3° Trimestre")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
-                      </td>
-                      <% if current_user.role == "Professor" %>
-                        <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
+                        <% elsif  current_user.role == "Admin" %>
                           <%= form_with model: [@sala, @aluno, horario] do |f| %>
                             <td data-title="Previstas">
                               <%= f.label :aulas_previstas %>
@@ -451,30 +122,30 @@
                             <%= horario.aulas_dadas %>
                           </td>
                         <% end %>
-                      <% elsif  current_user.role == "Admin" %>
-                        <%= form_with model: [@sala, @aluno, horario] do |f| %>
-                          <td data-title="Previstas">
-                            <%= f.label :aulas_previstas %>
-                            <%= f.text_field :aulas_previstas %>
-                          </td>
-                          <td data-title="Dadas">
-                            <%= f.label :aulas_dadas %>
-                            <%= f.text_field :aulas_dadas %>
-                            <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
-                          </td>
-                        <% end %>
                       <% else %>
-                        <td data-title="Previstas">
-                          <%= horario.aulas_previstas %>
-                        </td>
-                        <td data-title="Dadas">
-                          <%= horario.aulas_dadas %>
-                        </td>
-                      <% end %>
-                    <% else %>
-                      <td data-title="Nota">Aguardando Lançamento</td>
-                      <% if current_user.role == "Professor" %>
-                        <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
+                        <td data-title="Nota">Aguardando Lançamento</td>
+                        <% if current_user.role == "Professor" %>
+                          <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
+                            <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                              <td data-title="Previstas">
+                                <%= f.label :aulas_previstas %>
+                                <%= f.text_field :aulas_previstas %>
+                              </td>
+                              <td data-title="Dadas">
+                                <%= f.label :aulas_dadas %>
+                                <%= f.text_field :aulas_dadas %>
+                                <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                              </td>
+                            <% end %>
+                          <% else %>
+                            <td data-title="Previstas">
+                              <%= horario.aulas_previstas %>
+                            </td>
+                            <td data-title="Dadas">
+                              <%= horario.aulas_dadas %>
+                            </td>
+                          <% end %>
+                        <% elsif  current_user.role == "Admin" %>
                           <%= form_with model: [@sala, @aluno, horario] do |f| %>
                             <td data-title="Previstas">
                               <%= f.label :aulas_previstas %>
@@ -494,119 +165,454 @@
                             <%= horario.aulas_dadas %>
                           </td>
                         <% end %>
-                      <% elsif  current_user.role == "Admin" %>
-                        <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            2° Trimestre
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <table class="responsive-table" id="myTable">
+              <caption>Aluno <%= @aluno.name %></caption>
+              <thead>
+                <tr>
+                  <th scope="col">Horário</th>
+                  <th scope="col">Nota</th>
+                  <th scope="col">Aulas Previstas</th>
+                  <th scope="col">Aulas Dadas</th>
+                  <th scope="col">Enviar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @sala.horarios.each do |horario| %>
+                  <% if horario.trimestre == "2° Trimestre" %>
+                    <tr>
+                      <th scope="row"><%= horario.nome %></th>
+                      <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
+                        <td data-title="Nota">Aguardando Lançamento</td>
+                        <% if current_user.role == "Professor" %>
+                          <% if Professor.find_by(email: current_user.email) %>
+                            <% Professor.find_by(email: current_user.email).horarios.each do |ohorario| %>
+                              <% if horario.nome == ohorario.nome %>
+                                <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                                  <td data-title="Previstas">
+                                    <%= f.label :aulas_previstas %>
+                                    <%= f.text_field :aulas_previstas %>
+                                  </td>
+                                  <td data-title="Dadas">
+                                    <%= f.label :aulas_dadas %>
+                                    <%= f.text_field :aulas_dadas %>
+                                    <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                                  </td>
+                                <% end %>
+                              <% else %>
+                                <td data-title="Previstas">
+                                  <%= horario.aulas_previstas %>
+                                </td>
+                                <td data-title="Dadas">
+                                  <%= horario.aulas_dadas %>
+                                </td>
+                              <% end %>
+                            <% end %>
+                          <% else %>
+                            <td data-title="Previstas">
+                              <%= horario.aulas_previstas %>
+                            </td>
+                            <td data-title="Dadas">
+                              <%= horario.aulas_dadas %>
+                            </td>
+                          <% end %>
+                        <% elsif  current_user.role == "Admin" %>
+                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                            <td data-title="Previstas">
+                              <%= f.label :aulas_previstas %>
+                              <%= f.text_field :aulas_previstas %>
+                            </td>
+                            <td data-title="Dadas">
+                              <%= f.label :aulas_dadas %>
+                              <%= f.text_field :aulas_dadas %>
+                              <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                            </td>
+                          <% end %>
+                        <% else %>
                           <td data-title="Previstas">
-                            <%= f.label :aulas_previstas %>
-                            <%= f.text_field :aulas_previstas %>
+                            <%= horario.aulas_previstas %>
                           </td>
                           <td data-title="Dadas">
-                            <%= f.label :aulas_dadas %>
-                            <%= f.text_field :aulas_dadas %>
-                            <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                            <%= horario.aulas_dadas %>
+                          </td>
+                        <% end %>
+                      <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "2° Trimestre")%>
+                        <td data-title="Nota"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "2° Trimestre").nota %>
+                          <br>
+                          <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "2° Trimestre")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+                        </td>
+                        <% if current_user.role == "Professor" %>
+                          <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
+                            <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                              <td data-title="Previstas">
+                                <%= f.label :aulas_previstas %>
+                                <%= f.text_field :aulas_previstas %>
+                              </td>
+                              <td data-title="Dadas">
+                                <%= f.label :aulas_dadas %>
+                                <%= f.text_field :aulas_dadas %>
+                                <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                              </td>
+                            <% end %>
+                          <% else %>
+                            <td data-title="Previstas">
+                              <%= horario.aulas_previstas %>
+                            </td>
+                            <td data-title="Dadas">
+                              <%= horario.aulas_dadas %>
+                            </td>
+                          <% end %>
+                        <% elsif  current_user.role == "Admin" %>
+                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                            <td data-title="Previstas">
+                              <%= f.label :aulas_previstas %>
+                              <%= f.text_field :aulas_previstas %>
+                            </td>
+                            <td data-title="Dadas">
+                              <%= f.label :aulas_dadas %>
+                              <%= f.text_field :aulas_dadas %>
+                              <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                            </td>
+                          <% end %>
+                        <% else %>
+                          <td data-title="Previstas">
+                            <%= horario.aulas_previstas %>
+                          </td>
+                          <td data-title="Dadas">
+                            <%= horario.aulas_dadas %>
                           </td>
                         <% end %>
                       <% else %>
+                        <td data-title="Nota">Aguardando Lançamento</td>
+                        <% if current_user.role == "Professor" %>
+                          <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
+                            <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                              <td data-title="Previstas">
+                                <%= f.label :aulas_previstas %>
+                                <%= f.text_field :aulas_previstas %>
+                              </td>
+                              <td data-title="Dadas">
+                                <%= f.label :aulas_dadas %>
+                                <%= f.text_field :aulas_dadas %>
+                                <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                              </td>
+                            <% end %>
+                          <% else %>
+                            <td data-title="Previstas">
+                              <%= horario.aulas_previstas %>
+                            </td>
+                            <td data-title="Dadas">
+                              <%= horario.aulas_dadas %>
+                            </td>
+                          <% end %>
+                        <% elsif  current_user.role == "Admin" %>
+                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                            <td data-title="Previstas">
+                              <%= f.label :aulas_previstas %>
+                              <%= f.text_field :aulas_previstas %>
+                            </td>
+                            <td data-title="Dadas">
+                              <%= f.label :aulas_dadas %>
+                              <%= f.text_field :aulas_dadas %>
+                              <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                            </td>
+                          <% end %>
+                        <% else %>
+                          <td data-title="Previstas">
+                            <%= horario.aulas_previstas %>
+                          </td>
+                          <td data-title="Dadas">
+                            <%= horario.aulas_dadas %>
+                          </td>
+                        <% end %>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            3° Trimestre
+          </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <table class="responsive-table" id="myTable">
+              <caption>Aluno <%= @aluno.name %></caption>
+              <thead>
+                <tr>
+                  <th scope="col">Horário</th>
+                  <th scope="col">Nota</th>
+                  <th scope="col">Aulas Previstas</th>
+                  <th scope="col">Aulas Dadas</th>
+                  <th scope="col">Submit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @sala.horarios.each do |horario| %>
+                  <% if horario.trimestre == "3° Trimestre" %>
+                    <tr>
+                      <th scope="row"><%= horario.nome %></th>
+                      <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
+                        <td data-title="Nota">Aguardando Lançamento</td>
+                        <% if current_user.role == "Professor" %>
+                          <% if Professor.find_by(email: current_user.email) %>
+                            <% Professor.find_by(email: current_user.email).horarios.each do |ohorario| %>
+                              <% if horario.nome == ohorario.nome %>
+                                <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                                  <td data-title="Previstas">
+                                    <%= f.label :aulas_previstas %>
+                                    <%= f.text_field :aulas_previstas %>
+                                  </td>
+                                  <td data-title="Dadas">
+                                    <%= f.label :aulas_dadas %>
+                                    <%= f.text_field :aulas_dadas %>
+                                    <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                                  </td>
+                                <% end %>
+                              <% else %>
+                                <td data-title="Previstas">
+                                  <%= horario.aulas_previstas %>
+                                </td>
+                                <td data-title="Dadas">
+                                  <%= horario.aulas_dadas %>
+                                </td>
+                              <% end %>
+                            <% end %>
+                          <% else %>
+                            <td data-title="Previstas">
+                              <%= horario.aulas_previstas %>
+                            </td>
+                            <td data-title="Dadas">
+                              <%= horario.aulas_dadas %>
+                            </td>
+                          <% end %>
+                        <% elsif  current_user.role == "Admin" %>
+                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                            <td data-title="Previstas">
+                              <%= f.label :aulas_previstas %>
+                              <%= f.text_field :aulas_previstas %>
+                            </td>
+                            <td data-title="Dadas">
+                              <%= f.label :aulas_dadas %>
+                              <%= f.text_field :aulas_dadas %>
+                              <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                            </td>
+                          <% end %>
+                        <% else %>
+                          <td data-title="Previstas">
+                            <%= horario.aulas_previstas %>
+                          </td>
+                          <td data-title="Dadas">
+                            <%= horario.aulas_dadas %>
+                          </td>
+                        <% end %>
+                      <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "3° Trimestre")%>
+                        <td data-title="Nota"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "3° Trimestre").nota %>
+                          <br>
+                          <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "3° Trimestre")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+                        </td>
+                        <% if current_user.role == "Professor" %>
+                          <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
+                            <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                              <td data-title="Previstas">
+                                <%= f.label :aulas_previstas %>
+                                <%= f.text_field :aulas_previstas %>
+                              </td>
+                              <td data-title="Dadas">
+                                <%= f.label :aulas_dadas %>
+                                <%= f.text_field :aulas_dadas %>
+                                <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                              </td>
+                            <% end %>
+                          <% else %>
+                            <td data-title="Previstas">
+                              <%= horario.aulas_previstas %>
+                            </td>
+                            <td data-title="Dadas">
+                              <%= horario.aulas_dadas %>
+                            </td>
+                          <% end %>
+                        <% elsif  current_user.role == "Admin" %>
+                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                            <td data-title="Previstas">
+                              <%= f.label :aulas_previstas %>
+                              <%= f.text_field :aulas_previstas %>
+                            </td>
+                            <td data-title="Dadas">
+                              <%= f.label :aulas_dadas %>
+                              <%= f.text_field :aulas_dadas %>
+                              <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                            </td>
+                          <% end %>
+                        <% else %>
+                          <td data-title="Previstas">
+                            <%= horario.aulas_previstas %>
+                          </td>
+                          <td data-title="Dadas">
+                            <%= horario.aulas_dadas %>
+                          </td>
+                        <% end %>
+                      <% else %>
+                        <td data-title="Nota">Aguardando Lançamento</td>
+                        <% if current_user.role == "Professor" %>
+                          <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
+                            <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                              <td data-title="Previstas">
+                                <%= f.label :aulas_previstas %>
+                                <%= f.text_field :aulas_previstas %>
+                              </td>
+                              <td data-title="Dadas">
+                                <%= f.label :aulas_dadas %>
+                                <%= f.text_field :aulas_dadas %>
+                                <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                              </td>
+                            <% end %>
+                          <% else %>
+                            <td data-title="Previstas">
+                              <%= horario.aulas_previstas %>
+                            </td>
+                            <td data-title="Dadas">
+                              <%= horario.aulas_dadas %>
+                            </td>
+                          <% end %>
+                        <% elsif  current_user.role == "Admin" %>
+                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                            <td data-title="Previstas">
+                              <%= f.label :aulas_previstas %>
+                              <%= f.text_field :aulas_previstas %>
+                            </td>
+                            <td data-title="Dadas">
+                              <%= f.label :aulas_dadas %>
+                              <%= f.text_field :aulas_dadas %>
+                              <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                            </td>
+                          <% end %>
+                        <% else %>
+                          <td data-title="Previstas">
+                            <%= horario.aulas_previstas %>
+                          </td>
+                          <td data-title="Dadas">
+                            <%= horario.aulas_dadas %>
+                          </td>
+                        <% end %>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+            Final
+          </button>
+        </h2>
+        <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <table class="responsive-table" id="myTable">
+              <caption>Aluno <%= @aluno.name %></caption>
+              <thead>
+                <tr>
+                  <th scope="col">Horário</th>
+                  <th scope="col">Nota</th>
+                  <th scope="col">Aulas Previstas</th>
+                  <th scope="col">Aulas Dadas</th>
+                  <th scope="col">Submit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @sala.horarios.each do |horario| %>
+                  <% soma_previstas = 0 %>
+                  <% soma_dadas = 0 %>
+                  <% if horario.trimestre == "Final" %>
+                    <tr>
+                      <th scope="row"><%= horario.nome %></th>
+                      <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
+                        <td data-title="Nota">Aguardando Lançamento</td>
+                        <!-- Fazer soma das aulas dadas e previstas de todos trimestres -->
                         <td data-title="Previstas">
-                          <%= horario.aulas_previstas %>
+                          <% if Horario.where(trimestre: "Final", nome: horario.nome) %>
+                            <% Horario.where(nome: horario.nome, sala: @aluno.sala).each do |aula| %>
+                              <% if aula.aulas_previstas %>
+                                <% soma_previstas += aula.aulas_previstas.to_i %>
+                              <% end %>
+                            <% end %>
+                          <% end %>
+                          <%= soma_previstas %>
                         </td>
                         <td data-title="Dadas">
-                          <%= horario.aulas_dadas %>
+                          <% if Horario.where(trimestre: "Final", nome: horario.nome) %>
+                            <% Horario.where(nome: horario.nome, sala: @aluno.sala).each do |aula| %>
+                              <% if aula.aulas_dadas %>
+                                <% soma_dadas += aula.aulas_dadas.to_i %>
+                              <% end %>
+                            <% end %>
+                          <% end %>
+                          <%= soma_dadas %>
+                        </td>
+                        <!-- Fazer soma das aulas dadas e previstas de todos trimestres -->
+                      <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "Final")%>
+                        <td data-title="Nota"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "Final").nota %>
+                          <br>
+                          <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "Final")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
+                        </td>
+                        <td data-title="Previstas">
+                          <% if Horario.where(trimestre: "Final", nome: horario.nome) %>
+                            <% Horario.where(nome: horario.nome, sala: @aluno.sala).each do |aula| %>
+                              <% if aula.aulas_previstas %>
+                                <% soma_previstas += aula.aulas_previstas.to_i %>
+                              <% end %>
+                            <% end %>
+                          <% end %>
+                          <%= soma_previstas %>
+                        </td>
+                        <td data-title="Dadas">
+                          <% if Horario.where(trimestre: "Final", nome: horario.nome) %>
+                            <% Horario.where(nome: horario.nome, sala: @aluno.sala).each do |aula| %>
+                              <% if aula.aulas_dadas %>
+                                <% soma_dadas += aula.aulas_dadas.to_i %>
+                              <% end %>
+                            <% end %>
+                          <% end %>
+                          <%= soma_dadas %>
                         </td>
                       <% end %>
-                    <% end %>
-                  </tr>
+                    </tr>
+                  <% end %>
                 <% end %>
-              <% end %>
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-          Final
-        </button>
-      </h2>
-      <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <table class="responsive-table" id="myTable">
-            <caption>Aluno <%= @aluno.name %></caption>
-            <thead>
-              <tr>
-                <th scope="col">Horário</th>
-                <th scope="col">Nota</th>
-                <th scope="col">Aulas Previstas</th>
-                <th scope="col">Aulas Dadas</th>
-                <th scope="col">Submit</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @sala.horarios.each do |horario| %>
-                <% soma_previstas = 0 %>
-                <% soma_dadas = 0 %>
-                <% if horario.trimestre == "Final" %>
-                  <tr>
-                    <th scope="row"><%= horario.nome %></th>
-                    <% if @aluno.notas_alunos.find_by(horario_id: horario.id).nil? == true %>
-                      <td data-title="Nota">Aguardando Lançamento</td>
-                      <!-- Fazer soma das aulas dadas e previstas de todos trimestres -->
-                      <td data-title="Previstas">
-                        <% if Horario.where(trimestre: "Final", nome: horario.nome) %>
-                          <% Horario.where(nome: horario.nome, sala: @aluno.sala).each do |aula| %>
-                            <% if aula.aulas_previstas %>
-                              <% soma_previstas += aula.aulas_previstas.to_i %>
-                            <% end %>
-                          <% end %>
-                        <% end %>
-                        <%= soma_previstas %>
-                      </td>
-                      <td data-title="Dadas">
-                        <% if Horario.where(trimestre: "Final", nome: horario.nome) %>
-                          <% Horario.where(nome: horario.nome, sala: @aluno.sala).each do |aula| %>
-                            <% if aula.aulas_dadas %>
-                              <% soma_dadas += aula.aulas_dadas.to_i %>
-                            <% end %>
-                          <% end %>
-                        <% end %>
-                        <%= soma_dadas %>
-                      </td>
-                      <!-- Fazer soma das aulas dadas e previstas de todos trimestres -->
-                    <% elsif @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "Final")%>
-                      <td data-title="Nota"><%= @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "Final").nota %>
-                        <br>
-                        <%= link_to "Delete", sala_aluno_notas_aluno_path(@sala, @aluno, @aluno.notas_alunos.find_by(horario_id: horario.id, trimestre: "Final")), data: {turbo_method: :delete, turbo_confirm: "Are you sure?"} %>
-                      </td>
-                      <td data-title="Previstas">
-                        <% if Horario.where(trimestre: "Final", nome: horario.nome) %>
-                          <% Horario.where(nome: horario.nome, sala: @aluno.sala).each do |aula| %>
-                            <% if aula.aulas_previstas %>
-                              <% soma_previstas += aula.aulas_previstas.to_i %>
-                            <% end %>
-                          <% end %>
-                        <% end %>
-                        <%= soma_previstas %>
-                      </td>
-                      <td data-title="Dadas">
-                        <% if Horario.where(trimestre: "Final", nome: horario.nome) %>
-                          <% Horario.where(nome: horario.nome, sala: @aluno.sala).each do |aula| %>
-                            <% if aula.aulas_dadas %>
-                              <% soma_dadas += aula.aulas_dadas.to_i %>
-                            <% end %>
-                          <% end %>
-                        <% end %>
-                        <%= soma_dadas %>
-                      </td>
-                    <% end %>
-                  </tr>
-                <% end %>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+  <% else %>
+    <h1 class="text-center">Aguardando Lançamento de Boletim</h1>
+  <% end %>
 </div>
 <br>
