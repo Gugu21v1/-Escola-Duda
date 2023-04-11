@@ -1,18 +1,15 @@
 class HorariosController < ApplicationController
   def edit
     @sala = Sala.find(params[:sala_id])
-    @aluno = Aluno.find(params[:aluno_id])
-    authorize @aluno
+    @horario = @sala.horarios.find(params[:id])
+    authorize @horario
   end
 
   def update
     @sala = Sala.find(params[:sala_id])
     @horario = @sala.horarios.find(params[:id])
-    @aluno = Aluno.find(params[:aluno_id])
-    authorize @aluno
-    if @horario.update(horario_params) == false
-      render 'aluno/show', status: :unprocessable_entity
-    end
+    authorize @horario
+    @horario.update(horario_params)
   end
 
   private

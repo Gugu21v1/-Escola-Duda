@@ -7,7 +7,7 @@ Mostrar todos os alunos // Feito
 Mostrar todas as salas // Feito
 
 Editar Nota // Feita
-Editar Professor
+Editar Professor // Feito
 Editar Aluno // Feito
 Editar Secretaria
 
@@ -19,9 +19,9 @@ Separar Trimestres // Feito
 
 Search Bar Para Aluno // Feito
 
-Aluno fazer login com matricula
+Aluno fazer login com matricula // Feito
 
 Fórmulas do Boletim
 Lógica Boletim
-Adicionar nome dos pais aos alunos
+Adicionar nome dos pais aos alunos // Feito
 Criar Campo de Aulas Dadas e Aulas previstas // Feito

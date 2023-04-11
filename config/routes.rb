@@ -4,9 +4,9 @@ Rails.application.routes.draw do
   get 'admin', to: 'pages#admin'
   resources :salas do
     resources :professors
+    resources :horarios, only: %i[edit update]
     resources :alunos do
       resources :notas_alunos, only: %i[new create edit update destroy]
-      resources :horarios, only: %i[edit update]
     end
   end
   resources :permissaos, only: %i[edit update]

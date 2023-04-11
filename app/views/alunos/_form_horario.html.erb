@@ -1,0 +1,9 @@
+<%= simple_form_for [sala, horario] do |f| %>
+  <td data-title="Previstas">
+    <%= f.input :aulas_previstas, disabled:"disabled" %>
+  </td>
+  <td data-title="Dadas">
+    <%= f.input :aulas_dadas, disabled:"disabled" %>
+    <td class="text-center"><%= f.submit 'Enviar', class:"btn btn-secondary rounded rounded-5"%></td>
+  </td>
+<% end %>

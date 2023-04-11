@@ -7,6 +7,9 @@
 </div>
 <br>
 <div class="container">
+  <div class="text-center">
+    <%= button_to "Liberar Formulário", "", class:"btn btn-secondary m-3" %>
+  </div>
   <% if current_user.role == "Aluno" && Permissao.first.visivel == true || current_user.role == "Admin" || current_user.role == "Professor" %>
     <div class="accordion" id="accordionExample">
       <div class="accordion-item">
@@ -37,7 +40,7 @@
                         <td data-title="Nota">Aguardando Lançamento</td>
                         <% if current_user.role == "Professor" %>
                           <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
-                            <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                            <%= form_with model: [@sala, horario] do |f| %>
                               <td data-title="Previstas">
                                 <%= f.label :aulas_previstas %>
                                 <%= f.text_field :aulas_previstas %>
@@ -45,7 +48,7 @@
                               <td data-title="Dadas">
                                 <%= f.label :aulas_dadas %>
                                 <%= f.text_field :aulas_dadas %>
-                                <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                                <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5"%></td>
                               </td>
                             <% end %>
                           <% else %>
@@ -57,7 +60,7 @@
                             </td>
                           <% end %>
                         <% elsif  current_user.role == "Admin" %>
-                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                          <%= form_with model: [@sala, horario] do |f| %>
                             <td data-title="Previstas">
                               <%= f.label :aulas_previstas %>
                               <%= f.text_field :aulas_previstas %>
@@ -65,7 +68,7 @@
                             <td data-title="Dadas">
                               <%= f.label :aulas_dadas %>
                               <%= f.text_field :aulas_dadas %>
-                              <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                              <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 "%></td>
                             </td>
                           <% end %>
                         <% else %>
@@ -83,7 +86,7 @@
                         </td>
                         <% if current_user.role == "Professor" %>
                           <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
-                            <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                            <%= form_with model: [@sala, horario] do |f| %>
                               <td data-title="Previstas">
                                 <%= f.label :aulas_previstas %>
                                 <%= f.text_field :aulas_previstas %>
@@ -91,7 +94,7 @@
                               <td data-title="Dadas">
                                 <%= f.label :aulas_dadas %>
                                 <%= f.text_field :aulas_dadas %>
-                                <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                                <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 "%></td>
                               </td>
                             <% end %>
                           <% else %>
@@ -103,7 +106,7 @@
                             </td>
                           <% end %>
                         <% elsif  current_user.role == "Admin" %>
-                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                          <%= form_with model: [@sala, horario] do |f| %>
                             <td data-title="Previstas">
                               <%= f.label :aulas_previstas %>
                               <%= f.text_field :aulas_previstas %>
@@ -111,7 +114,7 @@
                             <td data-title="Dadas">
                               <%= f.label :aulas_dadas %>
                               <%= f.text_field :aulas_dadas %>
-                              <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                              <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 "%></td>
                             </td>
                           <% end %>
                         <% else %>
@@ -126,7 +129,7 @@
                         <td data-title="Nota">Aguardando Lançamento</td>
                         <% if current_user.role == "Professor" %>
                           <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
-                            <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                            <%= form_with model: [@sala, horario] do |f| %>
                               <td data-title="Previstas">
                                 <%= f.label :aulas_previstas %>
                                 <%= f.text_field :aulas_previstas %>
@@ -134,7 +137,7 @@
                               <td data-title="Dadas">
                                 <%= f.label :aulas_dadas %>
                                 <%= f.text_field :aulas_dadas %>
-                                <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                                <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 "%></td>
                               </td>
                             <% end %>
                           <% else %>
@@ -146,7 +149,7 @@
                             </td>
                           <% end %>
                         <% elsif  current_user.role == "Admin" %>
-                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                          <%= form_with model: [@sala, horario] do |f| %>
                             <td data-title="Previstas">
                               <%= f.label :aulas_previstas %>
                               <%= f.text_field :aulas_previstas %>
@@ -154,7 +157,7 @@
                             <td data-title="Dadas">
                               <%= f.label :aulas_dadas %>
                               <%= f.text_field :aulas_dadas %>
-                              <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 refresh"%></td>
+                              <td class="text-center"><%= f.button 'Enviar', class:"btn btn-secondary rounded rounded-5 "%></td>
                             </td>
                           <% end %>
                         <% else %>
@@ -204,7 +207,7 @@
                           <% if Professor.find_by(email: current_user.email) %>
                             <% Professor.find_by(email: current_user.email).horarios.each do |ohorario| %>
                               <% if horario.nome == ohorario.nome %>
-                                <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                                <%= form_with model: [@sala, horario] do |f| %>
                                   <td data-title="Previstas">
                                     <%= f.label :aulas_previstas %>
                                     <%= f.text_field :aulas_previstas %>
@@ -233,7 +236,7 @@
                             </td>
                           <% end %>
                         <% elsif  current_user.role == "Admin" %>
-                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                          <%= form_with model: [@sala, horario] do |f| %>
                             <td data-title="Previstas">
                               <%= f.label :aulas_previstas %>
                               <%= f.text_field :aulas_previstas %>
@@ -259,7 +262,7 @@
                         </td>
                         <% if current_user.role == "Professor" %>
                           <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
-                            <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                            <%= form_with model: [@sala, horario] do |f| %>
                               <td data-title="Previstas">
                                 <%= f.label :aulas_previstas %>
                                 <%= f.text_field :aulas_previstas %>
@@ -279,7 +282,7 @@
                             </td>
                           <% end %>
                         <% elsif  current_user.role == "Admin" %>
-                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                          <%= form_with model: [@sala, horario] do |f| %>
                             <td data-title="Previstas">
                               <%= f.label :aulas_previstas %>
                               <%= f.text_field :aulas_previstas %>
@@ -302,7 +305,7 @@
                         <td data-title="Nota">Aguardando Lançamento</td>
                         <% if current_user.role == "Professor" %>
                           <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
-                            <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                            <%= form_with model: [@sala, horario] do |f| %>
                               <td data-title="Previstas">
                                 <%= f.label :aulas_previstas %>
                                 <%= f.text_field :aulas_previstas %>
@@ -322,7 +325,7 @@
                             </td>
                           <% end %>
                         <% elsif  current_user.role == "Admin" %>
-                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                          <%= form_with model: [@sala, horario] do |f| %>
                             <td data-title="Previstas">
                               <%= f.label :aulas_previstas %>
                               <%= f.text_field :aulas_previstas %>
@@ -380,7 +383,7 @@
                           <% if Professor.find_by(email: current_user.email) %>
                             <% Professor.find_by(email: current_user.email).horarios.each do |ohorario| %>
                               <% if horario.nome == ohorario.nome %>
-                                <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                                <%= form_with model: [@sala, horario] do |f| %>
                                   <td data-title="Previstas">
                                     <%= f.label :aulas_previstas %>
                                     <%= f.text_field :aulas_previstas %>
@@ -409,7 +412,7 @@
                             </td>
                           <% end %>
                         <% elsif  current_user.role == "Admin" %>
-                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                          <%= form_with model: [@sala, horario] do |f| %>
                             <td data-title="Previstas">
                               <%= f.label :aulas_previstas %>
                               <%= f.text_field :aulas_previstas %>
@@ -435,7 +438,7 @@
                         </td>
                         <% if current_user.role == "Professor" %>
                           <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
-                            <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                            <%= form_with model: [@sala, horario] do |f| %>
                               <td data-title="Previstas">
                                 <%= f.label :aulas_previstas %>
                                 <%= f.text_field :aulas_previstas %>
@@ -455,7 +458,7 @@
                             </td>
                           <% end %>
                         <% elsif  current_user.role == "Admin" %>
-                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                          <%= form_with model: [@sala, horario] do |f| %>
                             <td data-title="Previstas">
                               <%= f.label :aulas_previstas %>
                               <%= f.text_field :aulas_previstas %>
@@ -478,7 +481,7 @@
                         <td data-title="Nota">Aguardando Lançamento</td>
                         <% if current_user.role == "Professor" %>
                           <% if Professor.find_by(email: current_user.email).horario_ids.include?(horario.id) == true %>
-                            <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                            <%= form_with model: [@sala, horario] do |f| %>
                               <td data-title="Previstas">
                                 <%= f.label :aulas_previstas %>
                                 <%= f.text_field :aulas_previstas %>
@@ -498,7 +501,7 @@
                             </td>
                           <% end %>
                         <% elsif  current_user.role == "Admin" %>
-                          <%= form_with model: [@sala, @aluno, horario] do |f| %>
+                          <%= form_with model: [@sala, horario] do |f| %>
                             <td data-title="Previstas">
                               <%= f.label :aulas_previstas %>
                               <%= f.text_field :aulas_previstas %>
@@ -542,7 +545,6 @@
                   <th scope="col">Nota</th>
                   <th scope="col">Aulas Previstas</th>
                   <th scope="col">Aulas Dadas</th>
-                  <th scope="col">Submit</th>
                 </tr>
               </thead>
               <tbody>
